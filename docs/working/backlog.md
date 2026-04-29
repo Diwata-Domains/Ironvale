@@ -52,7 +52,7 @@ Status values: `draft` | `ready` | `in_progress` | `blocked` | `done`
 **Goal:** Publish a usable documentation surface for the completed primitive set with Storybook, practical examples, and token override guidance.
 
 ### P2-T01 — Configure Storybook for Ironvale primitives
-- **Status:** ready
+- **Status:** done
 - **Dependencies:** P1-T05
 - **Summary:** Add Storybook configuration, ensure Aether tokens and Ironvale CSS load in preview, and validate local Storybook startup/build.
 
