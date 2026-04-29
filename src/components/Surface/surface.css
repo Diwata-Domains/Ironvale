@@ -1,0 +1,22 @@
+.iv-surface {
+  display: block;
+  padding: var(--ae-space-component-md);
+  border: thin solid var(--ae-color-border-default);
+  border-radius: var(--ae-radius-card);
+  color: var(--ae-color-text-default);
+}
+
+.iv-surface--base {
+  background-color: var(--ae-color-bg-base);
+  box-shadow: none;
+}
+
+.iv-surface--raised {
+  background-color: var(--ae-color-bg-raised);
+  box-shadow: var(--ae-shadow-sm);
+}
+
+.iv-surface--overlay {
+  background-color: var(--ae-color-bg-overlay);
+  box-shadow: var(--ae-shadow-md);
+}

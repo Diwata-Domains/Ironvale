@@ -1,0 +1,29 @@
+.iv-input {
+  width: 100%;
+  padding-block: var(--ae-space-component-sm);
+  padding-inline: var(--ae-space-component-md);
+  border: thin solid var(--ae-color-border-default);
+  border-radius: var(--ae-radius-component);
+  color: var(--ae-color-text-default);
+  background-color: var(--ae-color-bg-input);
+  font-family: var(--ae-font-family-base);
+  font-size: var(--ae-font-size-body);
+  line-height: var(--ae-text-leading-base);
+}
+
+.iv-input:focus {
+  border-color: var(--ae-color-border-focus);
+  outline: thin solid var(--ae-color-action-primary-bg);
+}
+
+.iv-input--error {
+  border-color: var(--ae-color-feedback-danger-border);
+}
+
+.iv-input[disabled],
+.iv-input[aria-disabled="true"] {
+  color: var(--ae-color-action-disabled-text);
+  background-color: var(--ae-color-action-disabled-bg);
+  border-color: var(--ae-color-action-disabled-border);
+  cursor: not-allowed;
+}

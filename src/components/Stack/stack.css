@@ -1,0 +1,25 @@
+.iv-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--iv-stack-gap, var(--ae-space-component-md));
+}
+
+.iv-stack--horizontal {
+  flex-direction: row;
+}
+
+.iv-stack--wrap {
+  flex-wrap: wrap;
+}
+
+.iv-stack--gap-sm {
+  --iv-stack-gap: var(--ae-space-component-sm);
+}
+
+.iv-stack--gap-md {
+  --iv-stack-gap: var(--ae-space-component-md);
+}
+
+.iv-stack--gap-lg {
+  --iv-stack-gap: var(--ae-space-component-lg);
+}

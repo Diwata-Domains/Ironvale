@@ -1,0 +1,32 @@
+.iv-text {
+  display: block;
+  margin: 0;
+  color: var(--ae-color-text-default);
+  font-family: var(--ae-font-family-base);
+}
+
+.iv-text--body {
+  font-size: var(--ae-font-size-body);
+  font-weight: var(--ae-font-weight-normal);
+  line-height: var(--ae-text-leading-base);
+}
+
+.iv-text--label {
+  font-size: var(--ae-font-size-label);
+  font-weight: var(--ae-font-weight-medium);
+  line-height: var(--ae-line-height-tight);
+  text-transform: uppercase;
+}
+
+.iv-text--heading {
+  font-size: var(--ae-font-size-heading-md);
+  font-weight: var(--ae-font-weight-bold);
+  line-height: var(--ae-line-height-tight);
+}
+
+.iv-text--caption {
+  font-size: var(--ae-font-size-caption);
+  font-weight: var(--ae-font-weight-normal);
+  line-height: var(--ae-line-height-normal);
+  color: var(--ae-color-text-muted);
+}

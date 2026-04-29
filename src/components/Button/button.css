@@ -1,0 +1,89 @@
+.iv-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ae-space-component-xs);
+  padding-block: var(--ae-space-component-sm);
+  padding-inline: var(--ae-space-component-md);
+  border: thin solid var(--ae-color-action-primary-bg);
+  border-radius: var(--ae-radius-component);
+  color: var(--ae-color-action-primary-text);
+  background-color: var(--ae-color-action-primary-bg);
+  cursor: pointer;
+  font-family: var(--ae-font-family-base);
+  font-size: var(--ae-font-size-body);
+  font-weight: var(--ae-font-weight-medium);
+  line-height: var(--ae-text-leading-base);
+  text-decoration: none;
+  transition-property: background-color, border-color, color;
+}
+
+.iv-button--primary {
+  color: var(--ae-color-action-primary-text);
+  background-color: var(--ae-color-action-primary-bg);
+  border-color: var(--ae-color-action-primary-bg);
+}
+
+.iv-button--primary:hover,
+.iv-button--primary:active {
+  background-color: var(--ae-color-action-primary-hover);
+  border-color: var(--ae-color-action-primary-hover);
+}
+
+.iv-button--ghost {
+  color: var(--ae-color-text-default);
+  background-color: transparent;
+  border-color: var(--ae-color-border-default);
+}
+
+.iv-button--ghost:hover,
+.iv-button--ghost:active {
+  color: var(--ae-color-text-default);
+  background-color: var(--ae-color-bg-subtle);
+  border-color: var(--ae-color-border-strong);
+}
+
+.iv-button--danger {
+  color: var(--ae-color-feedback-danger-text);
+  background-color: var(--ae-color-feedback-danger-bg);
+  border-color: var(--ae-color-feedback-danger-border);
+}
+
+.iv-button--danger:hover,
+.iv-button--danger:active {
+  background-color: var(--ae-color-feedback-danger-bg-hover);
+  border-color: var(--ae-color-feedback-danger-bg-hover);
+}
+
+.iv-button--sm {
+  gap: var(--ae-space-component-xs);
+  padding-block: var(--ae-space-component-xs);
+  padding-inline: var(--ae-space-component-sm);
+  font-size: var(--ae-font-size-label);
+}
+
+.iv-button--md {
+  gap: var(--ae-space-component-xs);
+  padding-block: var(--ae-space-component-sm);
+  padding-inline: var(--ae-space-component-md);
+  font-size: var(--ae-font-size-body);
+}
+
+.iv-button--lg {
+  gap: var(--ae-space-component-sm);
+  padding-block: var(--ae-space-component-md);
+  padding-inline: var(--ae-space-component-lg);
+  font-size: var(--ae-font-size-lg);
+}
+
+.iv-button[disabled],
+.iv-button[aria-disabled="true"] {
+  color: var(--ae-color-action-disabled-text);
+  background-color: var(--ae-color-action-disabled-bg);
+  border-color: var(--ae-color-action-disabled-border);
+  cursor: not-allowed;
+}
+
+.iv-button[aria-busy="true"] {
+  cursor: wait;
+}
