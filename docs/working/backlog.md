@@ -57,11 +57,11 @@ Status values: `draft` | `ready` | `in_progress` | `blocked` | `done`
 - **Summary:** Add Storybook configuration, ensure Aether tokens and Ironvale CSS load in preview, and validate local Storybook startup/build.
 
 ### P2-T02 — Author primitive stories and usage notes
-- **Status:** ready
+- **Status:** done
 - **Dependencies:** P2-T01
 - **Summary:** Create stories for Button, Text, Stack, Surface, and Input covering defaults, variants, sizes, and accessibility notes.
 
 ### P2-T03 — Document theming and adoption flow
-- **Status:** ready
+- **Status:** done
 - **Dependencies:** P2-T02
 - **Summary:** Add Storybook or package-level docs for install order, token overrides, theming patterns, and plain-HTML plus React usage.
