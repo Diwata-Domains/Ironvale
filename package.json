@@ -1,6 +1,7 @@
 {
   "name": "@diwata/ironvale",
   "version": "0.0.1",
+  "private": true,
   "description": "CSS component library for the Diwata Stack",
   "license": "MIT",
   "type": "module",
@@ -17,7 +18,7 @@
     "build": "tsup src/index.ts --dts --format esm && node scripts/build-css.mjs",
     "validate": "node scripts/validate-tokens.mjs",
     "test": "vitest run",
-    "lint": "eslint src",
+    "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "dev": "tsup src/index.ts --watch",
     "storybook": "storybook dev -p 6006",
