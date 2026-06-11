@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { BadgeVariant } from '../index.js'
 import { Badge, Table, Tbody, Td, Th, Thead, Tr } from '../index.js'
 
 const meta = {
@@ -35,9 +36,9 @@ function statusVariant(s: string) {
   return 'neutral' as const
 }
 
-function tierVariant(t: string) {
-  if (t === 'sovereign' || t === 'adept' || t === 'guild') return t as const
-  return 'neutral' as const
+function tierVariant(t: string): BadgeVariant {
+  if (t === 'sovereign' || t === 'adept' || t === 'guild') return t as BadgeVariant
+  return 'neutral'
 }
 
 export const Default: Story = {

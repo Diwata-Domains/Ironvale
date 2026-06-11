@@ -62,7 +62,7 @@ export const NavGroup: Story = {
   },
   render: () => (
     <div style={{ width: 180, background: 'var(--ae-color-bg-subtle)', padding: '8px', borderRadius: 'var(--ae-radius-lg)' }}>
-      <Stack gap="xs">
+      <Stack gap="sm">
         <NavItem label="Familiars" icon={<GridIcon />} active />
         <NavItem label="Circles" icon={<CircleIcon />} />
         <NavItem label="Settings" icon={<SettingsIcon />} />

@@ -26,13 +26,13 @@ export const Default: Story = {}
 export const Sizes: Story = {
   render: () => (
     <Stack direction="horizontal" gap="lg" style={{ alignItems: 'center' }}>
-      <Stack gap="xs" style={{ alignItems: 'center' }}>
+      <Stack gap="sm" style={{ alignItems: 'center' }}>
         <Spinner size="sm" /><Text variant="caption">sm</Text>
       </Stack>
-      <Stack gap="xs" style={{ alignItems: 'center' }}>
+      <Stack gap="sm" style={{ alignItems: 'center' }}>
         <Spinner size="md" /><Text variant="caption">md</Text>
       </Stack>
-      <Stack gap="xs" style={{ alignItems: 'center' }}>
+      <Stack gap="sm" style={{ alignItems: 'center' }}>
         <Spinner size="lg" /><Text variant="caption">lg</Text>
       </Stack>
     </Stack>
