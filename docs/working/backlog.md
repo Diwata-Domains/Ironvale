@@ -80,14 +80,14 @@ Status values: `draft` | `ready` | `in_progress` | `blocked` | `done`
 - **Summary:** `.iv-spinner`, sm/md/lg sizes, all sizing via new `--ae-size-icon-*` and `--ae-border-width-*` tokens. Zero hardcoded px values.
 
 ### P3-T08 — Migrate Apex and Conclave to Ironvale components
-- **Status:** ready
+- **Status:** done
 - **Dependencies:** P3-T02 through P3-T07
-- **Summary:** Swap `.ap-*` / `.cp-*` raw CSS class usage in apps/apex and apps/conclave to Ironvale components.
+- **Summary:** Swap `.ap-*` / `.cp-*` raw CSS class usage in apps/apex and apps/conclave to Ironvale components. Both apps apply product theme at startup via `document.documentElement.setAttribute('data-theme', ...)`.
 
 ### P3-T09 — Storybook: new components + brand theme switcher
-- **Status:** ready
+- **Status:** done
 - **Dependencies:** P3-T08
-- **Summary:** Add stories for Card, Badge, NavItem, StatusDot, Table, Spinner. Add toolbar theme switcher showing diwata/dark/conclave/daemon themes.
+- **Summary:** Added stories for Card, Badge, NavItem, StatusDot, Table, Spinner (Components/ category). preview.ts → preview.tsx with JSX theme-switcher decorator. Toolbar shows default/diwata/dark/conclave/daemon/diwa. Storybook:build passes clean.
 
 ---
 

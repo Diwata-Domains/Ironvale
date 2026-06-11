@@ -5,14 +5,13 @@ Phase 3 — Brand Components
 
 **Goal:** Integrate Diwata brand palette, add the six missing components (Card, Badge, NavItem, StatusDot, Table, Spinner), and migrate existing apps to use Ironvale instead of raw CSS classes.
 
-**Status:** in_progress — components shipped, migration + Storybook pending
+**Status:** done — all 9 tasks complete
 
 ---
 
 ## Active Focus
 
-- P3-T08: Migrate apps/apex and apps/conclave from `.ap-*` / `.cp-*` raw classes to Ironvale components
-- P3-T09: Storybook stories for all Phase 3 components + brand theme switcher toolbar
+Phase 3 is complete. Next: Phase 4 planning (diwata.domains integration, Astro compatibility, marketing components).
 
 ---
 
