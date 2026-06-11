@@ -1,0 +1,64 @@
+.iv-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ae-space-component-xs);
+  padding-block: var(--ae-space-0-5);
+  padding-inline: var(--ae-space-component-sm);
+  border-radius: var(--ae-radius-pill);
+  border: var(--ae-border-width) solid transparent;
+  font-family: var(--ae-font-family-base);
+  font-size: var(--ae-font-size-caption);
+  font-weight: var(--ae-font-weight-semibold);
+  line-height: var(--ae-line-height-tight);
+  white-space: nowrap;
+}
+
+/* Intent variants */
+.iv-badge--success {
+  color: var(--ae-color-feedback-success);
+  background-color: color-mix(in srgb, var(--ae-color-feedback-success) 15%, transparent);
+  border-color: color-mix(in srgb, var(--ae-color-feedback-success) 30%, transparent);
+}
+
+.iv-badge--warning {
+  color: var(--ae-color-feedback-warning);
+  background-color: color-mix(in srgb, var(--ae-color-feedback-warning) 15%, transparent);
+  border-color: color-mix(in srgb, var(--ae-color-feedback-warning) 30%, transparent);
+}
+
+.iv-badge--error {
+  color: var(--ae-color-feedback-error);
+  background-color: color-mix(in srgb, var(--ae-color-feedback-error) 15%, transparent);
+  border-color: color-mix(in srgb, var(--ae-color-feedback-error) 30%, transparent);
+}
+
+.iv-badge--neutral {
+  color: var(--ae-color-text-muted);
+  background-color: var(--ae-color-bg-muted);
+  border-color: var(--ae-color-border);
+}
+
+.iv-badge--info {
+  color: var(--ae-color-feedback-info);
+  background-color: color-mix(in srgb, var(--ae-color-feedback-info) 15%, transparent);
+  border-color: color-mix(in srgb, var(--ae-color-feedback-info) 30%, transparent);
+}
+
+/* Tier variants — maps to Conclave familiar tiers */
+.iv-badge--sovereign {
+  color: var(--ae-color-accent);
+  background-color: color-mix(in srgb, var(--ae-color-accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--ae-color-accent) 30%, transparent);
+}
+
+.iv-badge--adept {
+  color: var(--ae-color-text-secondary);
+  background-color: var(--ae-color-bg-subtle);
+  border-color: var(--ae-color-border-strong);
+}
+
+.iv-badge--guild {
+  color: var(--ae-color-text-muted);
+  background-color: var(--ae-color-bg-muted);
+  border-color: var(--ae-color-border);
+}

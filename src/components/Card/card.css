@@ -1,0 +1,20 @@
+.iv-card {
+  background-color: var(--ae-color-bg-subtle);
+  border: var(--ae-border-width) solid var(--ae-color-border);
+  border-radius: var(--ae-radius-card);
+  padding: var(--ae-space-component-lg);
+}
+
+.iv-card--base {
+  background-color: var(--ae-color-bg-subtle);
+  box-shadow: none;
+}
+
+.iv-card--raised {
+  background-color: var(--ae-color-bg-muted);
+  box-shadow: var(--ae-shadow-md);
+}
+
+.iv-card--flush {
+  padding: 0;
+}

@@ -1,0 +1,47 @@
+.iv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--ae-font-family-base);
+  font-size: var(--ae-font-size-label);
+}
+
+.iv-table th {
+  padding-block: var(--ae-space-component-sm);
+  padding-inline: var(--ae-space-component-md);
+  text-align: left;
+  font-size: var(--ae-font-size-caption);
+  font-weight: var(--ae-font-weight-semibold);
+  color: var(--ae-color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: var(--ae-border-width) solid var(--ae-color-border);
+  white-space: nowrap;
+}
+
+.iv-table td {
+  padding-block: var(--ae-space-component-sm);
+  padding-inline: var(--ae-space-component-md);
+  color: var(--ae-color-text-primary);
+  border-bottom: var(--ae-border-width) solid var(--ae-color-border);
+  vertical-align: middle;
+}
+
+.iv-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.iv-table tbody tr:hover td {
+  background-color: var(--ae-color-bg-muted);
+}
+
+/* Compact variant */
+.iv-table--compact th,
+.iv-table--compact td {
+  padding-block: var(--ae-space-component-xs);
+  padding-inline: var(--ae-space-component-sm);
+}
+
+/* No-hover variant for static tables */
+.iv-table--static tbody tr:hover td {
+  background-color: unset;
+}

@@ -4,7 +4,9 @@
 @import "./components/Stack/stack.css";
 @import "./components/Surface/surface.css";
 @import "./components/Input/input.css";
-
-@layer ironvale {
-  /* Component imports are added in later Phase 1 tasks. */
-}
+@import "./components/Card/card.css";
+@import "./components/Badge/badge.css";
+@import "./components/NavItem/nav-item.css";
+@import "./components/StatusDot/status-dot.css";
+@import "./components/Table/table.css";
+@import "./components/Spinner/spinner.css";

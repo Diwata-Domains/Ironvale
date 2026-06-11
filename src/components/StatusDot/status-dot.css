@@ -1,0 +1,44 @@
+.iv-dot {
+  display: inline-block;
+  width: var(--ae-size-dot-md);
+  height: var(--ae-size-dot-md);
+  border-radius: var(--ae-radius-full);
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.iv-dot--sm {
+  width: var(--ae-size-dot-sm);
+  height: var(--ae-size-dot-sm);
+}
+
+.iv-dot--lg {
+  width: var(--ae-size-dot-lg);
+  height: var(--ae-size-dot-lg);
+}
+
+.iv-dot--green {
+  background-color: var(--ae-color-feedback-success);
+}
+
+.iv-dot--yellow {
+  background-color: var(--ae-color-feedback-warning);
+}
+
+.iv-dot--red {
+  background-color: var(--ae-color-feedback-error);
+}
+
+.iv-dot--grey {
+  background-color: var(--ae-color-text-muted);
+}
+
+/* Pulse animation for live/active state */
+.iv-dot--pulse {
+  animation: iv-dot-pulse 2s ease-in-out infinite;
+}
+
+@keyframes iv-dot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}

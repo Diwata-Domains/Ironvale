@@ -1,0 +1,31 @@
+.iv-spinner {
+  display: inline-block;
+  border-radius: var(--ae-radius-full);
+  border-style: solid;
+  border-color: var(--ae-color-border);
+  border-top-color: var(--ae-color-action-primary);
+  animation: iv-spin 0.65s linear infinite;
+  flex-shrink: 0;
+}
+
+.iv-spinner--sm {
+  width: var(--ae-size-icon-xs);
+  height: var(--ae-size-icon-xs);
+  border-width: var(--ae-border-width-thick);
+}
+
+.iv-spinner--md {
+  width: var(--ae-size-icon-md);
+  height: var(--ae-size-icon-md);
+  border-width: var(--ae-border-width-thick);
+}
+
+.iv-spinner--lg {
+  width: var(--ae-size-icon-xl);
+  height: var(--ae-size-icon-xl);
+  border-width: var(--ae-border-width-xl);
+}
+
+@keyframes iv-spin {
+  to { transform: rotate(360deg); }
+}

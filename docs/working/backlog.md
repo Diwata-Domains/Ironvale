@@ -38,6 +38,59 @@ Status values: `draft` | `ready` | `in_progress` | `blocked` | `done`
 
 ---
 
+---
+
+## 3. Phase 3 — Brand Components
+
+**Goal:** Expand the component set with the pieces needed across Conclave, Apex, and diwata.domains, and integrate the Diwata brand theme from Aether.
+
+### P3-T01 — Aether brand palette (tracked in Aether P6)
+- **Status:** done
+- **Dependencies:** Phase 2 complete, Aether Phase 6
+- **Summary:** Aether now ships Crimson + Gold primitive scales, brand named tokens (`--ae-brand-*`), `[data-theme="diwata"]` canonical dark theme, and per-product theme files (`themes/conclave.css`, `themes/daemon.css`, `themes/diwa.css`).
+
+### P3-T02 — Card component
+- **Status:** done
+- **Dependencies:** P3-T01
+- **Summary:** `.iv-card`, `--base`/`--raised`/`--flush` variants. Replaces raw `.ap-card` / `.cp-card` class usage in apps.
+
+### P3-T03 — Badge component
+- **Status:** done
+- **Dependencies:** P3-T01
+- **Summary:** `.iv-badge`, intent variants (success/warning/error/neutral/info), tier variants (sovereign/adept/guild). Uses `color-mix()` for tinted backgrounds from semantic tokens.
+
+### P3-T04 — NavItem component
+- **Status:** done
+- **Dependencies:** P3-T01
+- **Summary:** `.iv-nav-item`, active state, icon slot. Replaces raw nav link CSS in both Apex and Conclave sidebar.
+
+### P3-T05 — StatusDot component
+- **Status:** done
+- **Dependencies:** P3-T01
+- **Summary:** `.iv-dot`, green/yellow/red/grey, sm/md/lg sizes, optional pulse animation. Replaces `.ap-dot--*` in Apex Services page.
+
+### P3-T06 — Table component
+- **Status:** done
+- **Dependencies:** P3-T01
+- **Summary:** `.iv-table`, compact + static variants, semantic React wrappers (Table, Thead, Tbody, Tr, Th, Td).
+
+### P3-T07 — Spinner component
+- **Status:** done
+- **Dependencies:** P3-T01
+- **Summary:** `.iv-spinner`, sm/md/lg sizes, all sizing via new `--ae-size-icon-*` and `--ae-border-width-*` tokens. Zero hardcoded px values.
+
+### P3-T08 — Migrate Apex and Conclave to Ironvale components
+- **Status:** ready
+- **Dependencies:** P3-T02 through P3-T07
+- **Summary:** Swap `.ap-*` / `.cp-*` raw CSS class usage in apps/apex and apps/conclave to Ironvale components.
+
+### P3-T09 — Storybook: new components + brand theme switcher
+- **Status:** ready
+- **Dependencies:** P3-T08
+- **Summary:** Add stories for Card, Badge, NavItem, StatusDot, Table, Spinner. Add toolbar theme switcher showing diwata/dark/conclave/daemon themes.
+
+---
+
 ## Under Consideration
 
 - Storybook for each component (Phase 2 — documentation layer)
