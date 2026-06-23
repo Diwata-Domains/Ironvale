@@ -1,0 +1,55 @@
+.iv-app-shell {
+  display: grid;
+  block-size: 100%;
+  min-block-size: 0;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header header"
+    "nav    main"
+    "status status";
+  background-color: var(--ae-color-bg-base);
+  color: var(--ae-text-default);
+}
+
+.iv-app-shell__header {
+  grid-area: header;
+  /* Tauri: let the header drag the window on desktop. */
+  -webkit-app-region: drag;
+}
+
+.iv-app-shell__nav {
+  grid-area: nav;
+  overflow-y: auto;
+  border-inline-end: var(--ae-border-width) solid var(--ae-color-border);
+}
+
+.iv-app-shell__main {
+  grid-area: main;
+  overflow: auto;
+  min-inline-size: 0;
+  min-block-size: 0;
+}
+
+.iv-app-shell__statusbar {
+  grid-area: status;
+  border-block-start: var(--ae-border-width) solid var(--ae-color-border);
+}
+
+/* Mobile: nav reflows to the bottom. */
+@media (max-width: 640px) {
+  .iv-app-shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas:
+      "header"
+      "main"
+      "status"
+      "nav";
+  }
+
+  .iv-app-shell__nav {
+    border-inline-end: none;
+    border-block-start: var(--ae-border-width) solid var(--ae-color-border);
+  }
+}

@@ -1,0 +1,19 @@
+.iv-app-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ae-space-component-xs);
+  padding: var(--ae-space-component-sm);
+  background-color: var(--ae-color-bg-subtle);
+  min-inline-size: 12rem;
+}
+
+/* Mobile: rail becomes a bottom tab bar. */
+@media (max-width: 640px) {
+  .iv-app-nav {
+    flex-direction: row;
+    justify-content: space-around;
+    gap: var(--ae-space-1);
+    min-inline-size: 0;
+    padding: var(--ae-space-1) var(--ae-space-component-sm);
+  }
+}

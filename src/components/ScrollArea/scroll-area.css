@@ -1,0 +1,20 @@
+.iv-scroll-area {
+  overflow: auto;
+  min-block-size: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ae-color-border-strong) transparent;
+}
+
+.iv-scroll-area::-webkit-scrollbar {
+  inline-size: 10px;
+  block-size: 10px;
+}
+
+.iv-scroll-area::-webkit-scrollbar-thumb {
+  background-color: var(--ae-color-border-strong);
+  border-radius: var(--ae-radius-pill);
+}
+
+.iv-scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}
