@@ -37,7 +37,7 @@
 }
 
 /* Mobile: nav reflows to the bottom. */
-@media (max-width: 640px) {
+@media (max-width: 40rem) {
   .iv-app-shell {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto auto;

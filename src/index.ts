@@ -26,3 +26,7 @@ export { AppNav } from './components/AppNav/AppNav.js';
 export type { AppNavItem, AppNavProps } from './components/AppNav/AppNav.js';
 export { ScrollArea } from './components/ScrollArea/ScrollArea.js';
 export type { ScrollAreaProps } from './components/ScrollArea/ScrollArea.js';
+export { ChatSurface } from './components/ChatSurface/ChatSurface.js';
+export type { ChatMessage, ChatSurfaceProps } from './components/ChatSurface/ChatSurface.js';
+export { ItemCard } from './components/ItemCard/ItemCard.js';
+export type { ItemCardProps } from './components/ItemCard/ItemCard.js';

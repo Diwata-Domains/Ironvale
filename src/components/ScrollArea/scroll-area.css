@@ -6,8 +6,8 @@
 }
 
 .iv-scroll-area::-webkit-scrollbar {
-  inline-size: 10px;
-  block-size: 10px;
+  inline-size: var(--ae-space-2);
+  block-size: var(--ae-space-2);
 }
 
 .iv-scroll-area::-webkit-scrollbar-thumb {

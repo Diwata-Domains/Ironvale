@@ -1,0 +1,57 @@
+.iv-chat-surface {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-block-size: 0;
+}
+
+.iv-chat-surface__messages {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ae-space-component-sm);
+  padding: var(--ae-space-component-md);
+}
+
+.iv-chat-msg {
+  display: flex;
+}
+
+.iv-chat-msg--user {
+  justify-content: flex-end;
+}
+
+.iv-chat-msg__bubble {
+  max-inline-size: 80%;
+  padding: var(--ae-space-component-sm) var(--ae-space-component-md);
+  border-radius: var(--ae-radius-lg);
+  background-color: var(--ae-color-bg-subtle);
+  color: var(--ae-text-default);
+  font-size: var(--ae-font-size-body);
+}
+
+.iv-chat-msg--user .iv-chat-msg__bubble {
+  background-color: var(--ae-color-action-primary-bg);
+  color: var(--ae-color-action-primary-text);
+}
+
+.iv-chat-msg--system .iv-chat-msg__bubble {
+  background-color: transparent;
+  padding-block: 0;
+  font-size: var(--ae-font-size-caption);
+}
+
+.iv-chat-surface__composer {
+  display: flex;
+  gap: var(--ae-space-component-sm);
+  padding: var(--ae-space-component-md);
+  border-block-start: var(--ae-border-width) solid var(--ae-color-border);
+}
+
+.iv-chat-surface__field {
+  flex: 1 1 auto;
+}
+
+.iv-chat-surface__field input {
+  inline-size: 100%;
+}

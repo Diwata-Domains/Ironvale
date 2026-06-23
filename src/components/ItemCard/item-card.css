@@ -1,0 +1,33 @@
+.iv-item-card__head {
+  display: flex;
+  align-items: center;
+  gap: var(--ae-space-component-sm);
+  margin-block-end: var(--ae-space-1);
+}
+
+.iv-item-card__title {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.iv-item-card__desc {
+  display: block;
+}
+
+.iv-item-card__meta {
+  display: block;
+  margin-block-start: var(--ae-space-1);
+}
+
+.iv-item-card--clickable {
+  cursor: pointer;
+}
+
+.iv-item-card--clickable:hover {
+  box-shadow: var(--ae-shadow-md);
+}
+
+.iv-item-card--clickable:focus-visible {
+  outline: var(--ae-border-width-thick) solid var(--ae-color-border-focus);
+  outline-offset: var(--ae-space-0-5);
+}

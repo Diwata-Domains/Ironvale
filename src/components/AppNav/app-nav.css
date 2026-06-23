@@ -8,7 +8,7 @@
 }
 
 /* Mobile: rail becomes a bottom tab bar. */
-@media (max-width: 640px) {
+@media (max-width: 40rem) {
   .iv-app-nav {
     flex-direction: row;
     justify-content: space-around;
