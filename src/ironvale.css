@@ -5,6 +5,7 @@
 @import "./components/Surface/surface.css";
 @import "./components/Input/input.css";
 @import "./components/Card/card.css";
+@import "./components/Dialog/dialog.css";
 @import "./components/Badge/badge.css";
 @import "./components/NavItem/nav-item.css";
 @import "./components/StatusDot/status-dot.css";

@@ -10,6 +10,8 @@ export { Text } from './components/Text/Text.js';
 export type { TextElement, TextProps, TextVariant } from './components/Text/Text.js';
 export { Card } from './components/Card/Card.js';
 export type { CardProps, CardVariant } from './components/Card/Card.js';
+export { Dialog } from './components/Dialog/Dialog.js';
+export type { DialogProps, DialogSize } from './components/Dialog/Dialog.js';
 export { Badge } from './components/Badge/Badge.js';
 export type { BadgeIntent, BadgeProps, BadgeTier, BadgeVariant } from './components/Badge/Badge.js';
 export { NavItem } from './components/NavItem/NavItem.js';

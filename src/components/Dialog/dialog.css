@@ -1,0 +1,115 @@
+.iv-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--ae-z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ae-space-component-lg);
+  background: rgb(0 0 0 / 0.55);
+}
+
+.iv-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 32rem);
+  max-height: calc(100dvh - 2 * var(--ae-space-component-lg));
+  background-color: var(--ae-color-bg-subtle);
+  border: var(--ae-border-width) solid var(--ae-color-border);
+  border-radius: var(--ae-radius-card);
+  box-shadow: var(--ae-shadow-lg);
+  outline: none;
+}
+
+.iv-dialog--sm {
+  width: min(100%, 24rem);
+}
+.iv-dialog--md {
+  width: min(100%, 32rem);
+}
+.iv-dialog--lg {
+  width: min(100%, 46rem);
+}
+
+.iv-dialog__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ae-space-component-md);
+  padding: var(--ae-space-component-lg) var(--ae-space-component-lg) var(--ae-space-component-sm);
+}
+
+.iv-dialog__title {
+  margin: 0;
+  font-size: var(--ae-font-size-lg);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ae-color-text-primary);
+}
+
+.iv-dialog__close {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--ae-radius-sm);
+  background: transparent;
+  color: var(--ae-color-text-muted);
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+.iv-dialog__close:hover {
+  color: var(--ae-color-text-primary);
+  background-color: var(--ae-color-bg-muted);
+}
+.iv-dialog__close:focus-visible {
+  outline: var(--ae-border-width-thick) solid var(--ae-color-border-focus);
+  outline-offset: 2px;
+}
+
+.iv-dialog__body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 0 var(--ae-space-component-lg) var(--ae-space-component-lg);
+  color: var(--ae-color-text-secondary);
+}
+
+.iv-dialog__description {
+  margin: 0 0 var(--ae-space-component-md);
+  line-height: 1.5;
+  color: var(--ae-color-text-secondary);
+}
+
+.iv-dialog__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--ae-space-component-sm);
+  padding: var(--ae-space-component-md) var(--ae-space-component-lg) var(--ae-space-component-lg);
+  border-top: var(--ae-border-width) solid var(--ae-color-border);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .iv-dialog-overlay {
+    animation: iv-dialog-overlay-in 0.15s ease-out;
+  }
+  .iv-dialog {
+    animation: iv-dialog-panel-in 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @keyframes iv-dialog-overlay-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes iv-dialog-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.98);
+    }
+  }
+}
