@@ -17,6 +17,14 @@ export interface ChatSurfaceProps {
   /** Disable the composer while a reply is in flight. */
   busy?: boolean;
   className?: string;
+  /**
+   * Controlled composer value. When provided together with `onValueChange`, the caller owns the
+   * draft (e.g. to inject voice-transcribed text); otherwise the composer manages its own state.
+   */
+  value?: string;
+  onValueChange?: (value: string) => void;
+  /** Optional element rendered in the composer row, before Send (e.g. a voice-record button). */
+  composerAccessory?: ReactNode;
 }
 
 /**
@@ -29,8 +37,17 @@ export function ChatSurface({
   placeholder = 'Message your Sovereign…',
   busy = false,
   className,
+  value: valueProp,
+  onValueChange,
+  composerAccessory,
 }: ChatSurfaceProps) {
-  const [value, setValue] = useState('');
+  const [internalValue, setInternalValue] = useState('');
+  const isControlled = valueProp !== undefined;
+  const value = isControlled ? valueProp : internalValue;
+  const setValue = (next: string) => {
+    if (isControlled) onValueChange?.(next);
+    else setInternalValue(next);
+  };
   const classes = ['iv-chat-surface', className].filter(Boolean).join(' ');
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -60,6 +77,7 @@ export function ChatSurface({
             aria-label="Message"
           />
         </div>
+        {composerAccessory}
         <Button type="submit" variant="primary" disabled={busy || value.trim().length === 0}>
           Send
         </Button>
