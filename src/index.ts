@@ -14,6 +14,15 @@ export {
   applyColorMode,
 } from './colorMode.js';
 export type { ColorMode } from './colorMode.js';
+export {
+  getFontPreset,
+  setFontPreset,
+  initFontPreset,
+  applyFontPreset,
+} from './fontPreset.js';
+export type { FontPreset } from './fontPreset.js';
+export { AppearancePanel } from './components/AppearancePanel/AppearancePanel.js';
+export type { AppearancePanelProps } from './components/AppearancePanel/AppearancePanel.js';
 export { Stack } from './components/Stack/Stack.js';
 export type { StackDirection, StackGap, StackProps } from './components/Stack/Stack.js';
 export { Surface } from './components/Surface/Surface.js';

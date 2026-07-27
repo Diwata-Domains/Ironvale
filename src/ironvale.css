@@ -6,6 +6,7 @@
 @import "./components/Input/input.css";
 @import "./components/Select/select.css";
 @import "./components/ThemeToggle/theme-toggle.css";
+@import "./components/AppearancePanel/appearance-panel.css";
 @import "./components/Card/card.css";
 @import "./components/Dialog/dialog.css";
 @import "./components/Badge/badge.css";
