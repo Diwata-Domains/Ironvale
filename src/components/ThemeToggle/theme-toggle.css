@@ -1,0 +1,26 @@
+.iv-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--ae-color-border-strong);
+  border-radius: var(--ae-radius-full, 999px);
+  background: transparent;
+  color: var(--ae-color-text-secondary);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 120ms ease, border-color 120ms ease, background-color 120ms ease;
+}
+
+.iv-theme-toggle:hover {
+  color: var(--ae-color-text-primary);
+  border-color: var(--ae-color-border-focus);
+}
+
+.iv-theme-toggle:focus-visible {
+  outline: 2px solid var(--ae-color-border-focus);
+  outline-offset: 2px;
+}

@@ -4,6 +4,16 @@ export { Input } from './components/Input/Input.js';
 export type { InputProps } from './components/Input/Input.js';
 export { Select } from './components/Select/Select.js';
 export type { SelectOption, SelectProps } from './components/Select/Select.js';
+export { ThemeToggle } from './components/ThemeToggle/ThemeToggle.js';
+export type { ThemeToggleProps } from './components/ThemeToggle/ThemeToggle.js';
+export {
+  getColorMode,
+  setColorMode,
+  initColorMode,
+  toggleColorMode,
+  applyColorMode,
+} from './colorMode.js';
+export type { ColorMode } from './colorMode.js';
 export { Stack } from './components/Stack/Stack.js';
 export type { StackDirection, StackGap, StackProps } from './components/Stack/Stack.js';
 export { Surface } from './components/Surface/Surface.js';
