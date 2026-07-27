@@ -91,6 +91,31 @@ Status values: `draft` | `ready` | `in_progress` | `blocked` | `done`
 
 ---
 
+## 4. Phase 4 — Appearance System (design-system consolidation)
+
+**Goal:** Ship the shared, user-facing appearance editor — curated font presets × light/dark mode — as an Ironvale primitive, then adopt it across apps. Harvested from `diwata-site`; plan: `Diwata-Infra/docs/working/2026-07-27-design-system-consolidation-plan.md`.
+
+### P4-T01 — colorMode util + ThemeToggle
+- **Status:** done
+- **Dependencies:** Phase 3 complete
+- **Summary:** `src/colorMode.ts` (get/set/init/toggle/apply; `data-mode` on `<html>`; localStorage `diwata-mode`; default dark) + `ThemeToggle` (☾/☀). (PR #79)
+
+### P4-T02 — Select component (themed dropdown)
+- **Status:** done
+- **Summary:** `src/components/Select` — themed native-select replacement, all values from Aether tokens. (PR #76)
+
+### P4-T03 — fontPreset util + AppearancePanel
+- **Status:** done
+- **Dependencies:** P4-T01
+- **Summary:** `src/fontPreset.ts` (`data-font` on `<html>`; localStorage `diwata-font`; default→serif→mono) + `AppearancePanel` popover (FONT × MODE segmented controls, click-outside/Escape, ARIA). Exported from index. (PR #84)
+
+### P4-T04 — Adopt AppearancePanel across the deployable apps
+- **Status:** ready
+- **Dependencies:** P4-T03
+- **Summary:** Wire `initFontPreset()` + `<AppearancePanel>` into diwa-web, conclave, apex, assay-dashboard, sovereign. **One PR per app** — each edit trips that app's CI deploy, so no bulk change. Sanctum already wired (its floating nav).
+
+---
+
 ## Under Consideration
 
 - Storybook for each component (Phase 2 — documentation layer)
