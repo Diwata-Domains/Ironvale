@@ -2,6 +2,8 @@ export { Button } from './components/Button/Button.js';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './components/Button/Button.js';
 export { Input } from './components/Input/Input.js';
 export type { InputProps } from './components/Input/Input.js';
+export { Select } from './components/Select/Select.js';
+export type { SelectOption, SelectProps } from './components/Select/Select.js';
 export { Stack } from './components/Stack/Stack.js';
 export type { StackDirection, StackGap, StackProps } from './components/Stack/Stack.js';
 export { Surface } from './components/Surface/Surface.js';
