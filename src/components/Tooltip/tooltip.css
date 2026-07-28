@@ -1,0 +1,52 @@
+.iv-tooltip {
+  position: relative;
+  display: inline-flex;
+}
+
+.iv-tooltip__bubble {
+  position: absolute;
+  left: 50%;
+  z-index: var(--ae-z-overlay);
+  max-width: 16rem;
+  width: max-content;
+  padding-block: var(--ae-space-component-xs);
+  padding-inline: var(--ae-space-component-sm);
+  border-radius: var(--ae-radius-component);
+  background-color: var(--ae-color-bg-inverse);
+  color: var(--ae-color-text-inverse);
+  font-family: var(--ae-font-family-base);
+  font-size: var(--ae-font-size-label);
+  line-height: var(--ae-text-leading-base);
+  text-align: center;
+  box-shadow: var(--ae-shadow-md);
+  pointer-events: none;
+  opacity: 0;
+  /* Hidden state is nudged toward the trigger; showing settles it into place. */
+  transform: translateX(-50%) translateY(var(--iv-tooltip-offset, 0));
+  transition-property: opacity, transform;
+  transition-duration: var(--ae-motion-enter-duration);
+  transition-timing-function: var(--ae-motion-ease);
+}
+
+.iv-tooltip__bubble--top {
+  bottom: calc(100% + var(--ae-space-component-xs));
+  --iv-tooltip-offset: 4px;
+}
+
+.iv-tooltip__bubble--bottom {
+  top: calc(100% + var(--ae-space-component-xs));
+  --iv-tooltip-offset: -4px;
+}
+
+.iv-tooltip__bubble[data-open='true'] {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Reduced-motion: durations are already zeroed globally by the token guard;
+   this also drops the entrance offset so the bubble simply appears in place. */
+@media (prefers-reduced-motion: reduce) {
+  .iv-tooltip__bubble {
+    transform: translateX(-50%);
+  }
+}

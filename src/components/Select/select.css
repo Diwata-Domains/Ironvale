@@ -18,16 +18,28 @@
   font-size: var(--ae-font-size-label);
   text-align: left;
   cursor: pointer;
-  transition: border-color 120ms ease;
+  transition-property: border-color, box-shadow, color, background-color, transform;
+  transition-duration: var(--ae-motion-hover-duration);
+  transition-timing-function: var(--ae-motion-ease);
 }
 
 .iv-select__trigger:hover {
   border-color: var(--ae-color-border-focus);
 }
 
+/* Keyboard focus ring drawn with box-shadow so it never shifts layout and uses
+   the shared focus-ring tokens — matches .iv-button / .iv-input. */
 .iv-select__trigger:focus-visible {
-  outline: 2px solid var(--ae-color-border-focus);
-  outline-offset: 2px;
+  outline: none;
+  border-color: var(--ae-color-border-focus);
+  box-shadow: 0 0 0 var(--ae-focus-ring-offset) var(--ae-color-bg-base),
+    0 0 0 calc(var(--ae-focus-ring-offset) + var(--ae-focus-ring-width)) var(--ae-focus-ring-color);
+}
+
+/* Distinct instant press — the same physical nudge as .iv-button. */
+.iv-select__trigger:active:not([disabled]) {
+  transform: translateY(1px);
+  transition-duration: var(--ae-motion-press-duration);
 }
 
 .iv-select__value {

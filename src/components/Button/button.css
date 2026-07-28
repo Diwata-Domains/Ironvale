@@ -15,7 +15,25 @@
   font-weight: var(--ae-font-weight-medium);
   line-height: var(--ae-text-leading-base);
   text-decoration: none;
-  transition-property: background-color, border-color, color;
+  transition-property: background-color, border-color, color, box-shadow, transform;
+  transition-duration: var(--ae-motion-hover-duration);
+  transition-timing-function: var(--ae-motion-ease);
+}
+
+/* Keyboard-visible focus ring. Previously there was none, so keyboard users
+   got no indication of focus. The ring is drawn with box-shadow so it never
+   shifts layout and sits above the button's own border. */
+.iv-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--ae-focus-ring-offset) var(--ae-color-bg-base),
+    0 0 0 calc(var(--ae-focus-ring-offset) + var(--ae-focus-ring-width)) var(--ae-focus-ring-color);
+}
+
+/* Distinct pressed state: a small downward nudge reads as a physical press.
+   Press feedback is intentionally instant so it never lags the pointer. */
+.iv-button:active:not([disabled]):not([aria-disabled="true"]) {
+  transform: translateY(1px);
+  transition-duration: var(--ae-motion-press-duration);
 }
 
 .iv-button--primary {

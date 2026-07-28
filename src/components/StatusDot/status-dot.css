@@ -33,12 +33,46 @@
   background-color: var(--ae-color-text-muted);
 }
 
-/* Pulse animation for live/active state */
+/* Live pulse — a soft ring, colored by the dot, expands and fades outward. The
+   core dot stays crisp so the status colour is never ambiguous. */
 .iv-dot--pulse {
-  animation: iv-dot-pulse 2s ease-in-out infinite;
+  position: relative;
+}
+
+.iv-dot--pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-color: inherit;
+  pointer-events: none;
+  animation: iv-dot-pulse 2000ms var(--ae-ease-out, ease-out) infinite;
 }
 
 @keyframes iv-dot-pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  70%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* Reduced-motion gating — mirrors aether's dual mechanism: the OS-level
+   `prefers-reduced-motion` query and the manual `data-motion="reduced"`
+   override that aether stamps on <html> to zero the motion tokens. Under either,
+   the ring is removed and the dot rests as a static, still-legible status. */
+@media (prefers-reduced-motion: reduce) {
+  .iv-dot--pulse::after {
+    display: none;
+    animation: none;
+  }
+}
+
+:root[data-motion='reduced'] .iv-dot--pulse::after {
+  display: none;
+  animation: none;
 }

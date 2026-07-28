@@ -21,6 +21,56 @@ export {
   applyFontPreset,
 } from './fontPreset.js';
 export type { FontPreset } from './fontPreset.js';
+export {
+  getThemePreset,
+  setThemePreset,
+  initThemePreset,
+  applyThemePreset,
+  THEME_PRESETS,
+} from './themePreset.js';
+export type { ThemePreset } from './themePreset.js';
+export {
+  getTextScale,
+  setTextScale,
+  initTextScale,
+  applyTextScale,
+  TEXT_SCALES,
+} from './textScale.js';
+export type { TextScale } from './textScale.js';
+export {
+  getAccent,
+  setAccent,
+  initAccent,
+  applyAccentSwatch,
+  applyAccent,
+  clearAccent,
+  ACCENTS,
+} from './accent.js';
+export type { Accent, AccentSwatch, ApplyAccentOptions } from './accent.js';
+export {
+  getContrast,
+  setContrast,
+  initContrast,
+  applyContrast,
+  toggleContrast,
+} from './contrast.js';
+export type { Contrast } from './contrast.js';
+export {
+  getDensity,
+  setDensity,
+  initDensity,
+  applyDensity,
+  toggleDensity,
+} from './density.js';
+export type { Density } from './density.js';
+export {
+  getMotion,
+  setMotion,
+  initMotion,
+  applyMotion,
+  toggleMotion,
+} from './reducedMotion.js';
+export type { Motion } from './reducedMotion.js';
 export { AppearancePanel } from './components/AppearancePanel/AppearancePanel.js';
 export type { AppearancePanelProps } from './components/AppearancePanel/AppearancePanel.js';
 export { Stack } from './components/Stack/Stack.js';
@@ -38,7 +88,18 @@ export type { BadgeIntent, BadgeProps, BadgeTier, BadgeVariant } from './compone
 export { NavItem } from './components/NavItem/NavItem.js';
 export type { NavItemProps } from './components/NavItem/NavItem.js';
 export { StatusDot } from './components/StatusDot/StatusDot.js';
-export type { StatusDotColor, StatusDotProps, StatusDotSize } from './components/StatusDot/StatusDot.js';
+export type {
+  StatusDotColor,
+  StatusDotProps,
+  StatusDotSize,
+  StatusDotState,
+} from './components/StatusDot/StatusDot.js';
+export {
+  DEFAULT_LIVENESS_THRESHOLDS,
+  freshness,
+  livenessState,
+} from './components/StatusDot/liveness.js';
+export type { LivenessThresholds } from './components/StatusDot/liveness.js';
 export { Table, Tbody, Td, Th, Thead, Tr } from './components/Table/Table.js';
 export type { TableProps } from './components/Table/Table.js';
 export { Spinner } from './components/Spinner/Spinner.js';
@@ -53,3 +114,5 @@ export { ChatSurface } from './components/ChatSurface/ChatSurface.js';
 export type { ChatMessage, ChatSurfaceProps } from './components/ChatSurface/ChatSurface.js';
 export { ItemCard } from './components/ItemCard/ItemCard.js';
 export type { ItemCardProps } from './components/ItemCard/ItemCard.js';
+export { Tooltip } from './components/Tooltip/Tooltip.js';
+export type { TooltipPlacement, TooltipProps } from './components/Tooltip/Tooltip.js';

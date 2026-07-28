@@ -36,10 +36,15 @@
   z-index: 60;
   top: calc(100% + 6px);
   right: 0;
-  min-width: 12rem;
-  display: flex;
-  flex-direction: column;
-  gap: var(--ae-space-3);
+  width: max-content;
+  max-width: min(92vw, 26rem);
+  /* fit the viewport regardless of trigger position; scroll internally as a fallback */
+  max-height: min(76vh, 30rem);
+  overflow-y: auto;
+  /* two columns so 8 groups don't stack into an off-screen tower */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(8.5rem, 1fr));
+  gap: var(--ae-space-3) var(--ae-space-4);
   padding: var(--ae-space-3);
   background: var(--ae-color-bg-subtle);
   border: 1px solid var(--ae-color-border-strong);
@@ -47,10 +52,30 @@
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 
+/* left-anchored: opens rightward, for a left-placed trigger (Settings card) */
+.iv-appearance__menu--left {
+  right: auto;
+  left: 0;
+}
+
+/* narrow screens: single column, still scrolls */
+@media (max-width: 30rem) {
+  .iv-appearance__menu {
+    grid-template-columns: 1fr;
+    max-width: 92vw;
+  }
+}
+
 .iv-appearance__group {
   display: flex;
   flex-direction: column;
   gap: var(--ae-space-2);
+  min-width: 0;
+}
+
+/* wide groups (Theme, Accent — many options) span both columns so they don't over-wrap */
+.iv-appearance__group--wide {
+  grid-column: 1 / -1;
 }
 
 .iv-appearance__label {
@@ -95,4 +120,46 @@
 .iv-appearance__opt:focus-visible {
   outline: 2px solid var(--ae-color-border-focus);
   outline-offset: 1px;
+}
+
+/* A segmented control that wraps when it holds many options (e.g. Theme). */
+.iv-appearance__seg--wrap {
+  flex-wrap: wrap;
+}
+
+.iv-appearance__seg--wrap .iv-appearance__opt {
+  flex: 1 1 40%;
+}
+
+/* Accent swatch row — a radiogroup of color chips. */
+.iv-appearance__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ae-space-2);
+  padding: 2px 0;
+}
+
+.iv-appearance__swatch {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--ae-radius-full, 999px);
+  background: var(--iv-swatch, var(--ae-color-accent));
+  cursor: pointer;
+  box-shadow: 0 0 0 1px var(--ae-color-border) inset;
+  transition: transform 120ms ease, border-color 120ms ease;
+}
+
+.iv-appearance__swatch:hover {
+  transform: scale(1.1);
+}
+
+.iv-appearance__swatch--on {
+  border-color: var(--ae-color-text-primary);
+}
+
+.iv-appearance__swatch:focus-visible {
+  outline: 2px solid var(--ae-color-border-focus);
+  outline-offset: 2px;
 }

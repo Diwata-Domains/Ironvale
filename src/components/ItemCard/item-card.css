@@ -21,13 +21,25 @@
 
 .iv-item-card--clickable {
   cursor: pointer;
+  transition-property: box-shadow, transform, border-color;
+  transition-duration: var(--ae-motion-hover-duration);
+  transition-timing-function: var(--ae-motion-ease);
 }
 
 .iv-item-card--clickable:hover {
   box-shadow: var(--ae-shadow-md);
 }
 
+/* Keyboard focus ring drawn with box-shadow so it never shifts layout and uses
+   the shared focus-ring tokens — matches .iv-button / .iv-input. */
 .iv-item-card--clickable:focus-visible {
-  outline: var(--ae-border-width-thick) solid var(--ae-color-border-focus);
-  outline-offset: var(--ae-space-0-5);
+  outline: none;
+  box-shadow: 0 0 0 var(--ae-focus-ring-offset) var(--ae-color-bg-base),
+    0 0 0 calc(var(--ae-focus-ring-offset) + var(--ae-focus-ring-width)) var(--ae-focus-ring-color);
+}
+
+/* Distinct instant press — the same physical nudge as .iv-button. */
+.iv-item-card--clickable:active:not([aria-disabled="true"]) {
+  transform: translateY(1px);
+  transition-duration: var(--ae-motion-press-duration);
 }

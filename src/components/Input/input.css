@@ -9,11 +9,15 @@
   font-family: var(--ae-font-family-base);
   font-size: var(--ae-font-size-body);
   line-height: var(--ae-text-leading-base);
+  transition-property: border-color, box-shadow;
+  transition-duration: var(--ae-motion-hover-duration);
+  transition-timing-function: var(--ae-motion-ease);
 }
 
 .iv-input:focus {
   border-color: var(--ae-color-border-focus);
-  outline: thin solid var(--ae-color-action-primary-bg);
+  outline: none;
+  box-shadow: 0 0 0 var(--ae-focus-ring-width) var(--ae-focus-ring-color);
 }
 
 .iv-input--error {
