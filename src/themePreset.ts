@@ -9,24 +9,18 @@
  * `:root[data-preset="<id>"]` blocks. This module is only the persistence +
  * attribute-application layer, mirroring colorMode.ts / fontPreset.ts exactly.
  */
-export type ThemePreset =
-  | 'default'
-  | 'nocturne'
-  | 'parchment'
-  | 'midnight'
-  | 'aurora'
-  | 'ember'
-  | 'high-contrast';
+/**
+ * Only `default` (the brand baseline) is currently shipped. The six seed
+ * palettes (nocturne / parchment / midnight / aurora / ember / high-contrast)
+ * were pulled back for a real design pass — see the AppearancePanel note and
+ * the pulled `:root[data-preset=…]` blocks in @diwata/aether tokens.css. The
+ * type stays a union so the axis can be re-expanded without an API break.
+ */
+export type ThemePreset = 'default';
 
 /** The curated preset set, in menu order. `default` is the no-override brand baseline. */
 export const THEME_PRESETS: { value: ThemePreset; label: string }[] = [
   { value: 'default', label: 'Default' },
-  { value: 'nocturne', label: 'Nocturne' },
-  { value: 'parchment', label: 'Parchment' },
-  { value: 'midnight', label: 'Midnight' },
-  { value: 'aurora', label: 'Aurora' },
-  { value: 'ember', label: 'Ember' },
-  { value: 'high-contrast', label: 'High contrast' },
 ];
 
 const VALUES = new Set<ThemePreset>(THEME_PRESETS.map((p) => p.value));

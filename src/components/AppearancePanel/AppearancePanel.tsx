@@ -1,12 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { getFontPreset, setFontPreset, type FontPreset } from '../../fontPreset.js';
 import { getColorMode, setColorMode, type ColorMode } from '../../colorMode.js';
-import {
-  getThemePreset,
-  setThemePreset,
-  THEME_PRESETS,
-  type ThemePreset,
-} from '../../themePreset.js';
 import { getTextScale, setTextScale, TEXT_SCALES, type TextScale } from '../../textScale.js';
 import { ACCENTS, getAccent, setAccent, type Accent } from '../../accent.js';
 import { getContrast, setContrast, type Contrast } from '../../contrast.js';
@@ -47,14 +42,20 @@ const MOTIONS: { value: Motion; label: string }[] = [
 ];
 
 /**
- * The appearance editor: the tokens-as-data axes in one popover — Theme preset,
- * Font, Text size, Accent, Light/Dark, Contrast, Density, and Motion. Each
- * control is an accessible radiogroup that writes through the persisted ironvale
- * setters.
+ * The appearance editor: the tokens-as-data axes in one popover — Font, Text
+ * size, Accent, Light/Dark, Contrast, Density, and Motion. Each control is an
+ * accessible radiogroup that writes through the persisted ironvale setters.
+ *
+ * The menu is rendered through a portal to `document.body` and positioned
+ * against the trigger's measured rect (below it, flipped above when there's no
+ * room, and clamped to the viewport) so it can never be clipped by an overflow
+ * ancestor or stack behind a neighbouring panel.
+ *
+ * (The Theme-preset axis is hidden while only the `default` palette ships; the
+ * six seed palettes were pulled for a real design pass.)
  */
 export function AppearancePanel({ className, align = 'right' }: AppearancePanelProps) {
   const [open, setOpen] = useState(false);
-  const [preset, setPreset] = useState<ThemePreset>(() => getThemePreset());
   const [font, setFont] = useState<FontPreset>(() => getFontPreset());
   const [scale, setScale] = useState<TextScale>(() => getTextScale());
   const [accent, setAccentState] = useState<Accent>(() => getAccent());
@@ -62,12 +63,19 @@ export function AppearancePanel({ className, align = 'right' }: AppearancePanelP
   const [contrast, setContrastState] = useState<Contrast>(() => getContrast());
   const [density, setDensityState] = useState<Density>(() => getDensity());
   const [motion, setMotionState] = useState<Motion>(() => getMotion());
-  const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
 
+  // Close on outside click / Escape. With the menu portalled out of the trigger's
+  // DOM subtree, "outside" means outside BOTH the trigger and the menu.
   useEffect(() => {
     if (!open) return;
     const onDoc = (e: MouseEvent) => {
-      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+      const t = e.target as Node;
+      if (triggerRef.current?.contains(t)) return;
+      if (menuRef.current?.contains(t)) return;
+      setOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(false);
@@ -80,11 +88,56 @@ export function AppearancePanel({ className, align = 'right' }: AppearancePanelP
     };
   }, [open]);
 
+  // Position the portalled menu against the trigger's live rect. Runs before
+  // paint (useLayoutEffect) so the menu never flashes at 0,0, and re-runs on
+  // scroll/resize while open. Placement: below the trigger, flipped above when
+  // there's more room there, then clamped so it stays fully on-screen.
+  useLayoutEffect(() => {
+    if (!open) {
+      setPos(null);
+      return;
+    }
+    const place = () => {
+      const trigger = triggerRef.current;
+      const menu = menuRef.current;
+      if (!trigger || !menu) return;
+      const r = trigger.getBoundingClientRect();
+      const mw = menu.offsetWidth;
+      const mh = menu.offsetHeight;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const gap = 6;
+      const margin = 8;
+
+      // Vertical: prefer below; flip above only when below is too tight and
+      // above has more room.
+      let top = r.bottom + gap;
+      const roomBelow = vh - r.bottom - gap - margin;
+      const roomAbove = r.top - gap - margin;
+      if (roomBelow < mh && roomAbove > roomBelow) top = r.top - gap - mh;
+      top = Math.max(margin, Math.min(top, vh - mh - margin));
+
+      // Horizontal: anchor to the trigger edge named by `align`, then clamp.
+      let left = align === 'left' ? r.left : r.right - mw;
+      left = Math.max(margin, Math.min(left, vw - mw - margin));
+
+      setPos({ top, left });
+    };
+    place();
+    window.addEventListener('resize', place);
+    window.addEventListener('scroll', place, true);
+    return () => {
+      window.removeEventListener('resize', place);
+      window.removeEventListener('scroll', place, true);
+    };
+  }, [open, align]);
+
   const classes = ['iv-appearance', className].filter(Boolean).join(' ');
 
   return (
-    <div ref={rootRef} className={classes}>
+    <div className={classes}>
       <button
+        ref={triggerRef}
         type="button"
         className="iv-appearance__trigger"
         aria-haspopup="dialog"
@@ -95,33 +148,19 @@ export function AppearancePanel({ className, align = 'right' }: AppearancePanelP
       >
         <span aria-hidden="true">Aa</span>
       </button>
-      {open && (
-        <div
-          className={`iv-appearance__menu${align === 'left' ? ' iv-appearance__menu--left' : ''}`}
-          role="dialog"
-          aria-label="Appearance"
-        >
-          <div className="iv-appearance__group iv-appearance__group--wide">
-            <span className="iv-appearance__label">Theme</span>
-            <div className="iv-appearance__seg iv-appearance__seg--wrap" role="radiogroup" aria-label="Theme preset">
-              {THEME_PRESETS.map((p) => (
-                <button
-                  key={p.value}
-                  type="button"
-                  role="radio"
-                  aria-checked={preset === p.value}
-                  className={`iv-appearance__opt${preset === p.value ? ' iv-appearance__opt--on' : ''}`}
-                  onClick={() => {
-                    setThemePreset(p.value);
-                    setPreset(p.value);
-                  }}
-                >
-                  {p.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
+      {open &&
+        createPortal(
+          <div
+            ref={menuRef}
+            className="iv-appearance__menu"
+            role="dialog"
+            aria-label="Appearance"
+            style={{
+              top: pos ? `${pos.top}px` : 0,
+              left: pos ? `${pos.left}px` : 0,
+              visibility: pos ? 'visible' : 'hidden',
+            }}
+          >
           <div className="iv-appearance__group">
             <span className="iv-appearance__label">Font</span>
             <div className="iv-appearance__seg" role="radiogroup" aria-label="Font preset">
@@ -270,8 +309,9 @@ export function AppearancePanel({ className, align = 'right' }: AppearancePanelP
               ))}
             </div>
           </div>
-        </div>
-      )}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
