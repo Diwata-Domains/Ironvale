@@ -44,15 +44,24 @@ describe('textScale', () => {
 });
 
 describe('accent', () => {
-  it('defaults to gold and round-trips a swatch', () => {
-    expect(getAccent()).toBe('gold');
+  it('defaults to auto and round-trips a swatch', () => {
+    expect(getAccent()).toBe('auto');
     setAccent('azure');
     expect(getAccent()).toBe('azure');
     expect(root().getAttribute('data-accent')).toBe('azure');
   });
-  it('gold clears the attribute', () => {
+  it('auto clears the attribute; gold is an explicit swatch that sets it', () => {
     applyAccentSwatch('violet');
+    applyAccentSwatch('auto');
+    expect(root().hasAttribute('data-accent')).toBe(false);
     applyAccentSwatch('gold');
+    expect(root().getAttribute('data-accent')).toBe('gold');
+  });
+  it('setAccent(auto) persists auto and removes the attribute', () => {
+    setAccent('emerald');
+    setAccent('auto');
+    expect(localStorage.getItem('diwata-accent')).toBe('auto');
+    expect(getAccent()).toBe('auto');
     expect(root().hasAttribute('data-accent')).toBe(false);
   });
   it('init applies persisted swatch', () => {
@@ -60,12 +69,17 @@ describe('accent', () => {
     expect(initAccent()).toBe('emerald');
     expect(root().getAttribute('data-accent')).toBe('emerald');
   });
+  it('init with persisted auto leaves the attribute off', () => {
+    localStorage.setItem('diwata-accent', 'auto');
+    expect(initAccent()).toBe('auto');
+    expect(root().hasAttribute('data-accent')).toBe(false);
+  });
   it('applyAccent writes inline vars and does not persist', () => {
     applyAccent('var(--ae-color-blue-400)', { hover: 'var(--ae-color-blue-500)', text: '#000' });
     expect(root().style.getPropertyValue('--ae-color-accent')).toBe('var(--ae-color-blue-400)');
     expect(root().style.getPropertyValue('--ae-color-accent-hover')).toBe('var(--ae-color-blue-500)');
     expect(root().style.getPropertyValue('--ae-color-accent-text')).toBe('#000');
-    expect(getAccent()).toBe('gold'); // untouched
+    expect(getAccent()).toBe('auto'); // untouched
     clearAccent();
     expect(root().style.getPropertyValue('--ae-color-accent')).toBe('');
   });

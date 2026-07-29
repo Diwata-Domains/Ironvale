@@ -85,6 +85,30 @@
   box-shadow: none;
 }
 
+/* Interactive mode (onDayClick): cells are real <button>s. Strip every UA
+   button default (padding, border, min sizes, ButtonFace fill — the level
+   ramp above re-declares background, but appearance/padding must go), and
+   give keyboard users a visible ring. */
+button.iv-heatmap__cell {
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+button.iv-heatmap__cell:hover {
+  box-shadow: inset 0 0 0 1px var(--ae-color-accent);
+}
+
+button.iv-heatmap__cell:focus-visible {
+  outline: var(--ae-focus-ring-width, 2px) solid var(--ae-color-accent);
+  outline-offset: 1px;
+}
+
 .iv-heatmap__legend {
   display: flex;
   align-items: center;

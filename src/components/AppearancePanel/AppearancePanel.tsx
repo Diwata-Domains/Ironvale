@@ -246,6 +246,23 @@ export function AppearancePanel({ className, align = 'right' }: AppearancePanelP
           <div className="iv-appearance__group iv-appearance__group--wide">
             <span className="iv-appearance__label">Accent</span>
             <div className="iv-appearance__swatches" role="radiogroup" aria-label="Accent color">
+              {/* Auto — the default: no explicit accent, the theme/preset's own
+                  accent shows through. Rendered as a hollow "A" chip so it reads
+                  as "not a color" next to the swatches. */}
+              <button
+                type="button"
+                role="radio"
+                aria-checked={accent === 'auto'}
+                aria-label="Auto — theme's accent"
+                title="Auto — theme's accent"
+                className={`iv-appearance__swatch iv-appearance__swatch--auto${accent === 'auto' ? ' iv-appearance__swatch--on' : ''}`}
+                onClick={() => {
+                  setAccent('auto');
+                  setAccentState('auto');
+                }}
+              >
+                <span aria-hidden="true">A</span>
+              </button>
               {ACCENTS.map((a) => (
                 <button
                   key={a.value}

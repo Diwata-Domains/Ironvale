@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import {
   buildHeatmapGrid,
   DEFAULT_THRESHOLDS,
+  type HeatmapCell,
   type HeatmapDatum,
 } from './heatmapGrid.js';
 
@@ -24,6 +25,10 @@ export interface HeatmapProps {
   cellSize?: number;
   /** Show the Less→More legend. Default true. */
   legend?: boolean;
+  /** When provided, day cells render as real, keyboard-reachable `<button>`s
+   *  and clicking (or Enter/Space on) a day reports its datum. When absent the
+   *  grid stays fully non-interactive (decorative spans under one summary). */
+  onDayClick?: (datum: HeatmapCell) => void;
   className?: string;
 }
 
@@ -44,6 +49,7 @@ export function Heatmap({
   label,
   cellSize = 11,
   legend = true,
+  onDayClick,
   className,
 }: HeatmapProps) {
   const grid = useMemo(
@@ -52,11 +58,22 @@ export function Heatmap({
   );
 
   const summary = label ?? `${grid.total} ${unit} in the last ${weeks} weeks`;
-  const classes = ['iv-heatmap', className].filter(Boolean).join(' ');
+  const interactive = Boolean(onDayClick);
+  const classes = ['iv-heatmap', interactive && 'iv-heatmap--interactive', className]
+    .filter(Boolean)
+    .join(' ');
   const sizeStyle = { '--iv-heatmap-cell': `${cellSize}px` } as React.CSSProperties;
 
   return (
-    <figure className={classes} style={sizeStyle} role="img" aria-label={summary}>
+    // Non-interactive: one flat image with a summary. Interactive: the cells are
+    // real buttons, so the figure must NOT be role="img" (that would hide them
+    // from the accessibility tree) — the grid group carries the summary instead.
+    <figure
+      className={classes}
+      style={sizeStyle}
+      role={interactive ? undefined : 'img'}
+      aria-label={interactive ? undefined : summary}
+    >
       <div className="iv-heatmap__months" aria-hidden>
         {grid.monthLabels.map((m) => (
           <span
@@ -76,21 +93,38 @@ export function Heatmap({
             </span>
           ))}
         </div>
-        <div className="iv-heatmap__grid" aria-hidden>
+        <div
+          className="iv-heatmap__grid"
+          aria-hidden={interactive ? undefined : true}
+          role={interactive ? 'group' : undefined}
+          aria-label={interactive ? summary : undefined}
+        >
           {grid.weeks.map((week, w) => (
             <div key={w} className="iv-heatmap__week">
-              {week.map((cell, d) =>
-                cell ? (
+              {week.map((cell, d) => {
+                if (!cell) {
+                  return <span key={d} className="iv-heatmap__cell iv-heatmap__cell--pad" />;
+                }
+                const cellLabel = `${cell.count} ${unit} · ${cell.date}`;
+                return interactive ? (
+                  <button
+                    key={d}
+                    type="button"
+                    className="iv-heatmap__cell"
+                    data-level={cell.level}
+                    title={cellLabel}
+                    aria-label={cellLabel}
+                    onClick={() => onDayClick?.(cell)}
+                  />
+                ) : (
                   <span
                     key={d}
                     className="iv-heatmap__cell"
                     data-level={cell.level}
-                    title={`${cell.count} ${unit} · ${cell.date}`}
+                    title={cellLabel}
                   />
-                ) : (
-                  <span key={d} className="iv-heatmap__cell iv-heatmap__cell--pad" />
-                ),
-              )}
+                );
+              })}
             </div>
           ))}
         </div>

@@ -99,11 +99,21 @@
   font: inherit;
   font-size: var(--ae-font-size-sm, 13px);
   cursor: pointer;
-  transition: background-color 120ms ease, color 120ms ease;
+  transition:
+    background-color var(--ae-motion-hover-duration, 120ms) ease,
+    color var(--ae-motion-hover-duration, 120ms) ease,
+    box-shadow var(--ae-motion-hover-duration, 120ms) ease;
 }
 
-.iv-appearance__opt:hover {
+/* Obvious hover for non-selected, enabled options. Guarded off the selected
+   state via aria-checked so --on keeps its own look. The seg track is already
+   bg-muted, so the hover fill is bg-base (a muted fill would be invisible),
+   with an inset border shift standing in for a border change (opts are
+   borderless). The --on shadow stays the selected differentiator. */
+.iv-appearance__opt:hover:not([aria-checked='true']):not(:disabled) {
+  background: var(--ae-color-bg-base);
   color: var(--ae-color-text-primary);
+  box-shadow: inset 0 0 0 1px var(--ae-color-border-strong);
 }
 
 .iv-appearance__opt--on {
@@ -173,11 +183,19 @@
   background: var(--iv-swatch, var(--ae-color-accent));
   cursor: pointer;
   box-shadow: 0 0 0 1px var(--ae-color-border) inset;
-  transition: transform 120ms ease, border-color 120ms ease;
+  /* Motion tokens so data-motion="reduced" / prefers-reduced-motion zero it. */
+  transition:
+    transform var(--ae-motion-hover-duration, 120ms) ease,
+    border-color var(--ae-motion-hover-duration, 120ms) ease,
+    outline-color var(--ae-motion-hover-duration, 120ms) ease;
 }
 
+/* Hover = visible ring + lift; focus-visible below stays at least as strong
+   (same ring, wider offset) and wins when both apply (later in the file). */
 .iv-appearance__swatch:hover {
-  transform: scale(1.1);
+  outline: 2px solid var(--ae-color-border-focus);
+  outline-offset: 1px;
+  transform: scale(1.08);
 }
 
 .iv-appearance__swatch--on {
@@ -187,4 +205,18 @@
 .iv-appearance__swatch:focus-visible {
   outline: 2px solid var(--ae-color-border-focus);
   outline-offset: 2px;
+}
+
+/* The Auto chip — leads the swatch row. Hollow (no fill; the inset ring reads
+   as the outline) with an "A" in the LIVE accent color, so it previews
+   "whatever the current theme's accent is" rather than a fixed hue. */
+.iv-appearance__swatch--auto {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--ae-color-accent);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
 }

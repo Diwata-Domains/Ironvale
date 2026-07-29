@@ -3,8 +3,11 @@
  * to set it:
  *
  *  - `setAccent(name)` / `data-accent` — a curated swatch from the aether ramps,
- *    persisted in localStorage (the user's chosen accent). `gold` is the brand
- *    default (no attribute).
+ *    persisted in localStorage (the user's chosen accent). `auto` is the default
+ *    (no attribute): the active theme/preset supplies its own accent. Any NAMED
+ *    swatch (including `gold`) sets `data-accent`, which is an explicit choice
+ *    that applies everywhere — tokens.css carries preset-scoped override rules
+ *    so an explicit accent beats a theme preset's built-in accent.
  *  - `applyAccent(color, opts?)` — an imperative, un-persisted override that
  *    writes the accent CSS vars directly onto <html>. Diwa uses this to tint the
  *    accent to the active domain's color; call `clearAccent()` to drop back to
@@ -14,6 +17,7 @@
  * Mirrors colorMode.ts for the persisted-swatch portion.
  */
 export type Accent =
+  | 'auto'
   | 'gold'
   | 'crimson'
   | 'amber'
@@ -30,7 +34,11 @@ export interface AccentSwatch {
   token: string;
 }
 
-/** The curated swatch row, in menu order. `gold` is the brand default. */
+/**
+ * The curated NAMED swatch row, in menu order. `auto` is deliberately not in
+ * this list — it isn't a color chip; the AppearancePanel renders it as its own
+ * leading option ("use the theme's accent").
+ */
 export const ACCENTS: AccentSwatch[] = [
   { value: 'gold', label: 'Gold', token: 'var(--ae-color-gold-500)' },
   { value: 'crimson', label: 'Crimson', token: 'var(--ae-color-crimson-500)' },
@@ -46,7 +54,7 @@ const VALUES = new Set<Accent>(ACCENTS.map((a) => a.value));
 const KEY = 'diwata-accent';
 
 function isAccent(value: string | null): value is Accent {
-  return value !== null && VALUES.has(value as Accent);
+  return value !== null && (value === 'auto' || VALUES.has(value as Accent));
 }
 
 export function getAccent(): Accent {
@@ -54,13 +62,17 @@ export function getAccent(): Accent {
     const stored = localStorage.getItem(KEY);
     if (isAccent(stored)) return stored;
   }
-  return 'gold';
+  return 'auto';
 }
 
-/** Apply the named swatch via the `data-accent` attribute. `gold` clears it. */
+/**
+ * Apply a swatch via the `data-accent` attribute. `auto` REMOVES the attribute
+ * (the theme/preset's own accent shows through); every named swatch — gold
+ * included — sets it, marking an explicit choice that also wins under presets.
+ */
 export function applyAccentSwatch(accent: Accent): void {
   if (typeof document === 'undefined') return;
-  if (accent === 'gold') document.documentElement.removeAttribute('data-accent');
+  if (accent === 'auto') document.documentElement.removeAttribute('data-accent');
   else document.documentElement.setAttribute('data-accent', accent);
 }
 

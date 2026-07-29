@@ -1,7 +1,9 @@
+import { useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Heatmap } from '../index.js';
-import type { HeatmapDatum } from '../index.js';
+import type { HeatmapCell, HeatmapDatum } from '../index.js';
 
 // Deterministic demo data: a wave of activity with hot streaks, seeded (no Math.random).
 function demoData(endDate: string, weeks: number): HeatmapDatum[] {
@@ -64,5 +66,29 @@ export const Empty: Story = {
     weeks: 26,
     endDate: '2026-07-28',
     unit: 'signals',
+  },
+};
+
+/** With `onDayClick` the cells become real, keyboard-reachable buttons — tab
+ *  into the grid and press Enter, or click a day. Without the handler the
+ *  grid stays a flat, non-interactive image (see the stories above). */
+export const Clickable: Story = {
+  args: {
+    data: demoData('2026-07-28', 13),
+    weeks: 13,
+    endDate: '2026-07-28',
+    unit: 'signals',
+    cellSize: 13,
+  },
+  render: (args) => {
+    const [picked, setPicked] = useState<HeatmapCell | null>(null);
+    return (
+      <div style={{ display: 'grid', gap: 8 }}>
+        <Heatmap {...args} onDayClick={setPicked} />
+        <div style={{ font: '12px var(--ae-font-family-base)', color: 'var(--ae-color-text-secondary)' }}>
+          {picked ? `${picked.date} — ${picked.count} signals` : 'Click a day…'}
+        </div>
+      </div>
+    );
   },
 };
