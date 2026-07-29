@@ -2,6 +2,13 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { getFontPreset, setFontPreset, type FontPreset } from '../../fontPreset.js';
 import { getColorMode, setColorMode, type ColorMode } from '../../colorMode.js';
+import {
+  getThemePreset,
+  presetNativeMode,
+  setThemePreset,
+  THEME_PRESETS,
+  type ThemePreset,
+} from '../../themePreset.js';
 import { getTextScale, setTextScale, TEXT_SCALES, type TextScale } from '../../textScale.js';
 import { ACCENTS, getAccent, setAccent, type Accent } from '../../accent.js';
 import { getContrast, setContrast, type Contrast } from '../../contrast.js';
@@ -42,17 +49,20 @@ const MOTIONS: { value: Motion; label: string }[] = [
 ];
 
 /**
- * The appearance editor: the tokens-as-data axes in one popover — Font, Text
- * size, Accent, Light/Dark, Contrast, Density, and Motion. Each control is an
- * accessible radiogroup that writes through the persisted ironvale setters.
+ * The appearance editor: the tokens-as-data axes in one popover — Theme
+ * preset, Font, Text size, Accent, Light/Dark, Contrast, Density, and Motion.
+ * Each control is an accessible radiogroup that writes through the persisted
+ * ironvale setters.
  *
  * The menu is rendered through a portal to `document.body` and positioned
  * against the trigger's measured rect (below it, flipped above when there's no
  * room, and clamped to the viewport) so it can never be clipped by an overflow
  * ancestor or stack behind a neighbouring panel.
  *
- * (The Theme-preset axis is hidden while only the `default` palette ships; the
- * six seed palettes were pulled for a real design pass.)
+ * Theme presets carry their native mode (Obsidian-style): picking a non-default
+ * preset also applies the light/dark mode it was designed for, so the Mode
+ * radios lock to the preset's native mode (with a hint) until Default is
+ * re-selected.
  */
 export function AppearancePanel({ className, align = 'right' }: AppearancePanelProps) {
   const [open, setOpen] = useState(false);
@@ -60,6 +70,7 @@ export function AppearancePanel({ className, align = 'right' }: AppearancePanelP
   const [scale, setScale] = useState<TextScale>(() => getTextScale());
   const [accent, setAccentState] = useState<Accent>(() => getAccent());
   const [mode, setMode] = useState<ColorMode>(() => getColorMode());
+  const [preset, setPresetState] = useState<ThemePreset>(() => getThemePreset());
   const [contrast, setContrastState] = useState<Contrast>(() => getContrast());
   const [density, setDensityState] = useState<Density>(() => getDensity());
   const [motion, setMotionState] = useState<Motion>(() => getMotion());
@@ -161,7 +172,35 @@ export function AppearancePanel({ className, align = 'right' }: AppearancePanelP
               visibility: pos ? 'visible' : 'hidden',
             }}
           >
-          <div className="iv-appearance__group">
+          <div className="iv-appearance__group iv-appearance__group--wide">
+            <span className="iv-appearance__label">Theme</span>
+            <div
+              className="iv-appearance__seg iv-appearance__seg--wrap"
+              role="radiogroup"
+              aria-label="Theme preset"
+            >
+              {THEME_PRESETS.map((p) => (
+                <button
+                  key={p.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={preset === p.value}
+                  title={p.nativeMode ? `${p.label} (${p.nativeMode})` : p.label}
+                  className={`iv-appearance__opt${preset === p.value ? ' iv-appearance__opt--on' : ''}`}
+                  onClick={() => {
+                    setThemePreset(p.value);
+                    setPresetState(p.value);
+                    // the preset carries its native mode — mirror it in the Mode group
+                    if (p.nativeMode) setMode(p.nativeMode);
+                  }}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="iv-appearance__group iv-appearance__group--wide">
             <span className="iv-appearance__label">Font</span>
             <div className="iv-appearance__seg" role="radiogroup" aria-label="Font preset">
               {FONTS.map((f) => (
@@ -170,7 +209,7 @@ export function AppearancePanel({ className, align = 'right' }: AppearancePanelP
                   type="button"
                   role="radio"
                   aria-checked={font === f.value}
-                  className={`iv-appearance__opt${font === f.value ? ' iv-appearance__opt--on' : ''}`}
+                  className={`iv-appearance__opt iv-appearance__opt--font-${f.value}${font === f.value ? ' iv-appearance__opt--on' : ''}`}
                   onClick={() => {
                     setFontPreset(f.value);
                     setFont(f.value);
@@ -228,23 +267,39 @@ export function AppearancePanel({ className, align = 'right' }: AppearancePanelP
 
           <div className="iv-appearance__group">
             <span className="iv-appearance__label">Mode</span>
-            <div className="iv-appearance__seg" role="radiogroup" aria-label="Color mode">
-              {MODES.map((m) => (
-                <button
-                  key={m.value}
-                  type="button"
-                  role="radio"
-                  aria-checked={mode === m.value}
-                  className={`iv-appearance__opt${mode === m.value ? ' iv-appearance__opt--on' : ''}`}
-                  onClick={() => {
-                    setColorMode(m.value);
-                    setMode(m.value);
-                  }}
-                >
-                  {m.label}
-                </button>
-              ))}
-            </div>
+            {(() => {
+              // A non-default preset pins the mode to its native pairing; the
+              // radios reflect it read-only until Default is re-selected.
+              const lockedMode = presetNativeMode(preset);
+              const shownMode = lockedMode ?? mode;
+              return (
+                <>
+                  <div className="iv-appearance__seg" role="radiogroup" aria-label="Color mode">
+                    {MODES.map((m) => (
+                      <button
+                        key={m.value}
+                        type="button"
+                        role="radio"
+                        aria-checked={shownMode === m.value}
+                        disabled={lockedMode !== null}
+                        className={`iv-appearance__opt${shownMode === m.value ? ' iv-appearance__opt--on' : ''}`}
+                        onClick={() => {
+                          setColorMode(m.value);
+                          setMode(m.value);
+                        }}
+                      >
+                        {m.label}
+                      </button>
+                    ))}
+                  </div>
+                  {lockedMode !== null && (
+                    <span className="iv-appearance__hint">
+                      set by theme — pick Default to change
+                    </span>
+                  )}
+                </>
+              );
+            })()}
           </div>
 
           <div className="iv-appearance__group">

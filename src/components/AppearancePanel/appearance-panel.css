@@ -117,6 +117,36 @@
   outline-offset: 1px;
 }
 
+/* Mode radios lock while a theme preset pins its native mode. */
+.iv-appearance__opt:disabled {
+  color: var(--ae-color-text-disabled, var(--ae-color-text-muted));
+  cursor: not-allowed;
+}
+
+.iv-appearance__opt--on:disabled {
+  color: var(--ae-color-text-secondary);
+}
+
+/* Small footnote under a locked group (e.g. "set by theme — pick Default to change"). */
+.iv-appearance__hint {
+  font-size: var(--ae-font-size-xs, 11px);
+  color: var(--ae-color-text-muted);
+  font-style: italic;
+}
+
+/* Font options preview themselves — each label renders in the family its
+   preset applies (the same tokens :root[data-font] swaps into
+   --ae-font-family-base), so the choice is visible before it's made. */
+.iv-appearance__opt--font-default {
+  font-family: var(--ae-font-family-sans, ui-sans-serif, system-ui, sans-serif);
+}
+.iv-appearance__opt--font-serif {
+  font-family: var(--ae-font-family-body, Georgia, serif);
+}
+.iv-appearance__opt--font-mono {
+  font-family: var(--ae-font-family-mono, ui-monospace, monospace);
+}
+
 /* A segmented control that wraps when it holds many options (e.g. Theme). */
 .iv-appearance__seg--wrap {
   flex-wrap: wrap;

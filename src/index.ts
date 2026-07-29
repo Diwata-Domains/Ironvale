@@ -26,9 +26,10 @@ export {
   setThemePreset,
   initThemePreset,
   applyThemePreset,
+  presetNativeMode,
   THEME_PRESETS,
 } from './themePreset.js';
-export type { ThemePreset } from './themePreset.js';
+export type { ThemePreset, ThemePresetOption } from './themePreset.js';
 export {
   getTextScale,
   setTextScale,

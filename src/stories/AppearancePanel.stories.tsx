@@ -9,8 +9,10 @@ const meta = {
     docs: {
       description: {
         component:
-          'The appearance editor: 7 theme presets × light/dark × font × text-size × accent × contrast × density. ' +
+          'The appearance editor: 7 theme presets, light/dark, font, text-size, accent, contrast, density, motion. ' +
           'Tokens-as-data (each axis is a data-* attribute + a persisted setter) — no color picker. ' +
+          'A non-default preset CARRIES ITS NATIVE MODE (Obsidian-style): picking it also applies its paired ' +
+          'light/dark mode and locks the Mode radios until Default is re-selected. ' +
           'Click the trigger to open; selecting an axis re-themes the whole canvas.',
       },
     },
