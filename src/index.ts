@@ -116,3 +116,11 @@ export { ItemCard } from './components/ItemCard/ItemCard.js';
 export type { ItemCardProps } from './components/ItemCard/ItemCard.js';
 export { Tooltip } from './components/Tooltip/Tooltip.js';
 export type { TooltipPlacement, TooltipProps } from './components/Tooltip/Tooltip.js';
+export { Heatmap } from './components/Heatmap/Heatmap.js';
+export type { HeatmapProps } from './components/Heatmap/Heatmap.js';
+export {
+  buildHeatmapGrid,
+  levelFor,
+  DEFAULT_THRESHOLDS as HEATMAP_DEFAULT_THRESHOLDS,
+} from './components/Heatmap/heatmapGrid.js';
+export type { HeatmapDatum, HeatmapCell, HeatmapGrid } from './components/Heatmap/heatmapGrid.js';
