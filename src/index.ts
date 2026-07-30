@@ -125,3 +125,9 @@ export {
   DEFAULT_THRESHOLDS as HEATMAP_DEFAULT_THRESHOLDS,
 } from './components/Heatmap/heatmapGrid.js';
 export type { HeatmapDatum, HeatmapCell, HeatmapGrid } from './components/Heatmap/heatmapGrid.js';
+
+// --- ironvale form primitives (Checkbox + Heading; Select restyle in place) ---
+export { Checkbox } from './components/Checkbox/Checkbox.js';
+export type { CheckboxProps } from './components/Checkbox/Checkbox.js';
+export { Heading } from './components/Heading/Heading.js';
+export type { HeadingLevel, HeadingProps } from './components/Heading/Heading.js';

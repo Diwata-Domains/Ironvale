@@ -1,0 +1,45 @@
+.iv-heading {
+  display: block;
+  margin: 0;
+  color: var(--ae-color-text-primary);
+  font-family: var(--ae-font-family-base);
+  /* Headings are short — balance the ragged edge so a two-line title doesn't
+     leave one orphaned word. Sizes are token-driven, so the text-scale axis
+     lifts the whole scale together. */
+  text-wrap: balance;
+}
+
+/* Level 1 — page title. */
+.iv-heading--1 {
+  font-size: var(--ae-font-size-3xl);
+  font-weight: var(--ae-font-weight-bold);
+  line-height: var(--ae-line-height-tight);
+  letter-spacing: -0.01em;
+}
+
+/* Level 2 — section title. */
+.iv-heading--2 {
+  font-size: var(--ae-font-size-2xl);
+  font-weight: var(--ae-font-weight-semibold);
+  line-height: var(--ae-line-height-tight);
+  letter-spacing: -0.005em;
+}
+
+/* Level 3 — subsection heading. */
+.iv-heading--3 {
+  font-size: var(--ae-font-size-lg);
+  font-weight: var(--ae-font-weight-semibold);
+  line-height: var(--ae-line-height-tight);
+}
+
+/* Level 4 — micro-label / eyebrow. Uppercase with open tracking so it reads as
+   a label rather than a heading; muted so it sits above its content, not over
+   it. Tracking is em-relative, so it scales with the (token-driven) size. */
+.iv-heading--4 {
+  font-size: var(--ae-font-size-label);
+  font-weight: var(--ae-font-weight-semibold);
+  line-height: var(--ae-line-height-tight);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ae-color-text-secondary);
+}

@@ -68,24 +68,44 @@
   transform: rotate(-135deg) translateY(-2px);
 }
 
+/* The menu is portalled to <body> and positioned with `position: fixed` from
+   JS (top/left/width/max-height), so it carries no positioning of its own —
+   only the surface, scroll, and entrance treatment. */
 .iv-select__menu {
-  position: absolute;
   z-index: 60;
-  top: calc(100% + 4px);
-  left: 0;
-  min-width: 100%;
-  max-height: 260px;
   margin: 0;
   padding: 4px;
   list-style: none;
   overflow-y: auto;
-  background: var(--ae-color-bg-subtle);
+  overscroll-behavior: contain;
+  background: var(--ae-color-bg-raised);
   border: 1px solid var(--ae-color-border-strong);
   border-radius: var(--ae-radius-card);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  /* Hidden until JS has measured & placed it (data-open flips on), so it never
+     paints a frame at the pre-measurement origin. */
+  opacity: 0;
+  transition: opacity var(--ae-motion-hover-duration) var(--ae-motion-ease),
+    transform var(--ae-motion-hover-duration) var(--ae-motion-ease);
+}
+
+.iv-select__menu[data-open='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+.iv-select__menu--below {
+  transform: translateY(-2px);
+}
+
+.iv-select__menu--above {
+  transform: translateY(2px);
 }
 
 .iv-select__option {
+  display: flex;
+  align-items: center;
+  gap: var(--ae-space-2);
   padding: 8px 10px;
   border-radius: var(--ae-radius-sm);
   color: var(--ae-color-text-secondary);
@@ -94,6 +114,14 @@
   cursor: pointer;
 }
 
+.iv-select__option-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hover / keyboard-active option — a single visual channel so pointer and
+   keyboard focus never disagree (the component mirrors hover into `active`). */
 .iv-select__option--active {
   background: color-mix(in srgb, var(--ae-color-text-primary) 8%, transparent);
   color: var(--ae-color-text-primary);
@@ -101,13 +129,19 @@
 
 .iv-select__option--selected {
   color: var(--ae-color-text-primary);
+  font-weight: var(--ae-font-weight-medium);
 }
 
+/* Checkmark on the chosen option, drawn in the accent colour. */
 .iv-select__option--selected::after {
-  content: '✓';
-  float: right;
-  margin-left: var(--ae-space-3);
-  opacity: 0.7;
+  content: '';
+  flex-shrink: 0;
+  width: 6px;
+  height: 10px;
+  margin-left: var(--ae-space-2);
+  border-right: 2px solid var(--ae-color-accent);
+  border-bottom: 2px solid var(--ae-color-accent);
+  transform: rotate(45deg) translateY(-1px);
 }
 
 .iv-select--disabled {

@@ -1,0 +1,92 @@
+.iv-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ae-space-2);
+  cursor: pointer;
+  color: var(--ae-color-text-primary);
+  font-family: var(--ae-font-family-base);
+  font-size: var(--ae-font-size-label);
+  line-height: var(--ae-line-height-tight);
+  user-select: none;
+}
+
+/* The real control: focusable and hit-testable but visually replaced by the
+   styled box. Not `display:none` — that would drop it from the tab order. */
+.iv-checkbox__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.iv-checkbox__box {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  background: var(--ae-color-bg-input);
+  border: 1px solid var(--ae-color-border-strong);
+  border-radius: var(--ae-radius-sm);
+  color: var(--ae-color-accent-text);
+  transition-property: background-color, border-color, box-shadow, color;
+  transition-duration: var(--ae-motion-hover-duration);
+  transition-timing-function: var(--ae-motion-ease);
+}
+
+.iv-checkbox:hover .iv-checkbox__box {
+  border-color: var(--ae-color-border-focus);
+}
+
+/* Keyboard focus ring on the box — the native input is hidden, so mirror the
+   shared focus-ring treatment used by Button / Input / Select. */
+.iv-checkbox__input:focus-visible + .iv-checkbox__box {
+  outline: none;
+  border-color: var(--ae-color-border-focus);
+  box-shadow: 0 0 0 var(--ae-focus-ring-offset) var(--ae-color-bg-base),
+    0 0 0 calc(var(--ae-focus-ring-offset) + var(--ae-focus-ring-width)) var(--ae-focus-ring-color);
+}
+
+/* Checked / indeterminate → accent fill. */
+.iv-checkbox__input:checked + .iv-checkbox__box,
+.iv-checkbox__input:indeterminate + .iv-checkbox__box {
+  background: var(--ae-color-accent);
+  border-color: var(--ae-color-accent);
+}
+
+.iv-checkbox__check {
+  width: 14px;
+  height: 14px;
+}
+
+/* Glyphs are hidden by default; the matching state reveals exactly one. */
+.iv-checkbox__check-tick,
+.iv-checkbox__check-dash {
+  opacity: 0;
+}
+
+.iv-checkbox__input:checked + .iv-checkbox__box .iv-checkbox__check-tick {
+  opacity: 1;
+}
+
+.iv-checkbox__input:indeterminate + .iv-checkbox__box .iv-checkbox__check-tick {
+  opacity: 0;
+}
+
+.iv-checkbox__input:indeterminate + .iv-checkbox__box .iv-checkbox__check-dash {
+  opacity: 1;
+}
+
+.iv-checkbox__label {
+  color: var(--ae-color-text-secondary);
+}
+
+.iv-checkbox--disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
