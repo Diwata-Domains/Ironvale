@@ -1,0 +1,179 @@
+/* ── Constellation primitive ─────────────────────────────────────────────────
+   The reusable graph sky. Every colour is an aether token (or a caller-supplied
+   theme prop resolved in JS); nothing here is product-specific. The container is
+   a strict viewport — the world square never grows the page; density is a camera
+   problem (wheel zoom, drag/two-finger pan, pinch), so touch gestures belong to
+   the canvas, not the scroller. */
+.iv-constellation {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  border-radius: 10px;
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* ── Stars ──────────────────────────────────────────────────────────────────── */
+@keyframes iv-twinkle {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.iv-star {
+  animation: iv-twinkle 4.5s ease-in-out infinite;
+}
+.iv-star--you {
+  animation: iv-twinkle 3s ease-in-out infinite;
+}
+
+/* ── The galaxy: three.js point field behind the rich SVG, same camera, same world. */
+.iv-galaxy-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  pointer-events: none;
+  transition: opacity 160ms ease;
+}
+.iv-galaxy-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.iv-galaxy-label {
+  position: absolute;
+  transform: translateX(-50%);
+  font-family: var(--ae-font-mono, ui-monospace);
+  font-size: calc(10px * var(--ae-text-scale, 1));
+  letter-spacing: 0.04em;
+  color: var(--ae-color-text-secondary);
+  text-shadow: 0 1px 3px var(--ae-color-bg-sky, #000);
+  white-space: nowrap;
+}
+.iv-galaxy-label--center {
+  color: var(--ae-color-accent);
+}
+
+/* ── Recenter breadcrumb ──────────────────────────────────────────────────────
+   Shown when the sky is centred on a node other than the ego. */
+.iv-focus-crumb {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  font-family: var(--ae-font-mono, ui-monospace);
+  font-size: calc(11px * var(--ae-text-scale, 1));
+  letter-spacing: 0.05em;
+  color: var(--ae-color-text-primary);
+  background: color-mix(in srgb, var(--ae-color-bg-raised) 80%, transparent);
+  border: 1px solid var(--ae-color-accent);
+  border-radius: 999px;
+  padding: 5px 14px;
+  cursor: pointer;
+}
+.iv-focus-crumb:hover {
+  background: var(--ae-color-bg-muted);
+}
+
+/* ── Timelapse scrubber ───────────────────────────────────────────────────────
+   The graph as of a moment: drag time back and watch the world assemble. */
+.iv-history {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 10px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.iv-history-play {
+  font-size: calc(10px * var(--ae-text-scale, 1));
+  width: 26px;
+  height: 22px;
+  color: var(--ae-color-text-muted);
+  background: color-mix(in srgb, var(--ae-color-bg-base) 80%, transparent);
+  border: 1px solid var(--ae-color-border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.iv-history-play:hover {
+  color: var(--ae-color-accent);
+  border-color: var(--ae-color-accent);
+}
+.iv-history-slider {
+  flex: 1;
+  accent-color: var(--ae-color-accent);
+  height: 3px;
+  opacity: 0.75;
+}
+.iv-history-label {
+  font-family: var(--ae-font-mono, ui-monospace);
+  font-size: calc(9.5px * var(--ae-text-scale, 1));
+  letter-spacing: 0.08em;
+  color: var(--ae-color-text-muted);
+  min-width: 92px;
+  text-align: right;
+}
+
+/* ── Hover card — the glanceable tier between a star and a full dossier.
+   Never interactive: pointer-events none so it can't steal the hover. */
+.iv-hover-card {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  min-width: 150px;
+  max-width: 210px;
+  padding: 8px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--ae-color-border);
+  background: color-mix(in srgb, var(--ae-color-bg-base) 88%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+}
+.iv-hover-card-name {
+  font-size: var(--ae-font-size-xs);
+  color: var(--ae-color-text-primary);
+  margin-bottom: 3px;
+  overflow-wrap: break-word;
+}
+.iv-hover-card-row {
+  font-family: var(--ae-font-mono, ui-monospace);
+  font-size: calc(9.5px * var(--ae-text-scale, 1));
+  letter-spacing: 0.05em;
+  color: var(--ae-color-text-muted);
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.iv-hover-card-group {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: calc(8.5px * var(--ae-text-scale, 1));
+}
+
+/* ── Reduced motion: a still sky ──────────────────────────────────────────────
+   The twinkle is decoration; a vestibular-safe sky holds still. Both the OS
+   signal and the manual data-motion switch calm it (the component also stops the
+   cooling sim when reducedMotion is set). */
+@media (prefers-reduced-motion: reduce) {
+  .iv-star,
+  .iv-star--you {
+    animation: none;
+  }
+  .iv-galaxy-canvas,
+  .iv-galaxy-label,
+  .iv-focus-crumb {
+    transition: none;
+  }
+}
+:root[data-motion='reduced'] .iv-star,
+:root[data-motion='reduced'] .iv-star--you {
+  animation: none;
+}

@@ -21,6 +21,7 @@
 @import "./components/ItemCard/item-card.css";
 @import "./components/Tooltip/tooltip.css";
 @import "./components/Heatmap/heatmap.css";
+@import "./components/Constellation/constellation.css";
 
 /* --- ironvale form primitives (Select restyle + Checkbox + Heading) --- */
 @import "./components/Checkbox/checkbox.css";

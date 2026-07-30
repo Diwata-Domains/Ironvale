@@ -125,6 +125,29 @@ export {
   DEFAULT_THRESHOLDS as HEATMAP_DEFAULT_THRESHOLDS,
 } from './components/Heatmap/heatmapGrid.js';
 export type { HeatmapDatum, HeatmapCell, HeatmapGrid } from './components/Heatmap/heatmapGrid.js';
+export { Constellation } from './components/Constellation/Constellation.js';
+export type {
+  ConstellationNode,
+  ConstellationEdge,
+  ConstellationTheme,
+  ConstellationProps,
+  ConstellationViewStats,
+} from './components/Constellation/Constellation.js';
+export {
+  angleDelta,
+  hopDistances,
+  filterByTime,
+  filterByReach,
+  computeRingRadii,
+  sectorsByGroup,
+  fitCamera,
+  zoomAround,
+  screenToWorld,
+  tiltFactor,
+  DEFAULT_MAX_HOP,
+  SKY_MARGIN,
+} from './components/Constellation/graph.js';
+export type { Camera, Vec2, Sector } from './components/Constellation/graph.js';
 
 // --- ironvale form primitives (Checkbox + Heading; Select restyle in place) ---
 export { Checkbox } from './components/Checkbox/Checkbox.js';

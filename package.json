@@ -24,6 +24,9 @@
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build"
   },
+  "dependencies": {
+    "three": "^0.185.1"
+  },
   "peerDependencies": {
     "@diwata/aether": "workspace:*",
     "react": ">=18",
@@ -41,6 +44,7 @@
     "@storybook/react-vite": "^10.3.6",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.185.1",
     "jsdom": "^27.0.1",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
