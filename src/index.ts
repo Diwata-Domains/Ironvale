@@ -149,6 +149,23 @@ export {
 } from './components/Constellation/graph.js';
 export type { Camera, Vec2, Sector } from './components/Constellation/graph.js';
 
+export { Walkthrough } from './components/Walkthrough/Walkthrough.js';
+export type { WalkthroughProps } from './components/Walkthrough/Walkthrough.js';
+export type { WalkStep, WalkPlacement } from './components/Walkthrough/walkGeometry.js';
+export {
+  clampIndex,
+  nextIndex,
+  prevIndex,
+  isLastStep,
+  progressLabel,
+  resolveTarget,
+  cursorTarget,
+  spotlightBox,
+  placeTooltip,
+  tweenDuration,
+  settleStep,
+} from './components/Walkthrough/walkGeometry.js';
+
 // --- ironvale form primitives (Checkbox + Heading; Select restyle in place) ---
 export { Checkbox } from './components/Checkbox/Checkbox.js';
 export type { CheckboxProps } from './components/Checkbox/Checkbox.js';

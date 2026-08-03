@@ -1,0 +1,234 @@
+/* Walkthrough — guided product tour: dimmed spotlight, portalled card, and a
+   self-driving cursor. Everything is portalled onto document.body and drawn in
+   viewport (fixed) coordinates, above every app rail. Theme-safe via aether
+   tokens; reduced-motion honoured through the token guard + explicit fallbacks. */
+
+.iv-walk {
+  position: fixed;
+  inset: 0;
+  z-index: var(--ae-z-toast); /* above modals + rails so the tour owns the screen */
+  font-family: var(--ae-font-family-base);
+}
+
+/* ── spotlight scrim ─────────────────────────────────────────────────────── */
+.iv-walk__scrim {
+  position: fixed;
+  inset: 0;
+  cursor: pointer;
+}
+
+.iv-walk__dim {
+  /* A dark wash that reads in both light and dark themes. */
+  fill: rgb(0 0 0 / 0.58);
+  transition: opacity var(--ae-motion-enter-duration) var(--ae-motion-ease);
+}
+
+/* The cutout + ring animate their geometry as the spotlight moves between
+   targets — SVG geometry transitions are broadly supported and cheap. */
+.iv-walk__hole {
+  transition:
+    x var(--ae-duration-slow) var(--ae-motion-ease),
+    y var(--ae-duration-slow) var(--ae-motion-ease),
+    width var(--ae-duration-slow) var(--ae-motion-ease),
+    height var(--ae-duration-slow) var(--ae-motion-ease);
+}
+
+.iv-walk__ring {
+  stroke: var(--ae-color-accent);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 6px var(--ae-color-accent));
+  transition:
+    x var(--ae-duration-slow) var(--ae-motion-ease),
+    y var(--ae-duration-slow) var(--ae-motion-ease),
+    width var(--ae-duration-slow) var(--ae-motion-ease),
+    height var(--ae-duration-slow) var(--ae-motion-ease);
+}
+
+/* ── the self-driving cursor ─────────────────────────────────────────────── */
+.iv-walk__cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  /* transitionDuration is set inline (0 under reduced motion). */
+  transition-property: transform, opacity;
+  transition-timing-function: var(--ae-ease-out);
+  will-change: transform;
+}
+
+.iv-walk__pointer {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  filter: drop-shadow(0 2px 4px rgb(0 0 0 / 0.4));
+}
+
+/* The "click" pulse fired when the cursor lands on a target. */
+.iv-walk__ripple {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  border: 2px solid var(--ae-color-accent);
+  transform: scale(0.2);
+  opacity: 0.9;
+  animation-name: iv-walk-ripple;
+  animation-timing-function: var(--ae-ease-out);
+  animation-iteration-count: 1;
+}
+
+@keyframes iv-walk-ripple {
+  from {
+    transform: scale(0.2);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* ── the tooltip card ────────────────────────────────────────────────────── */
+.iv-walk__card {
+  position: fixed;
+  width: max-content;
+  max-width: min(22rem, calc(100vw - 24px));
+  padding: var(--ae-space-4);
+  border-radius: var(--ae-radius-component);
+  background-color: var(--ae-color-bg-raised, var(--ae-color-bg-base));
+  color: var(--ae-color-text-primary);
+  border: 1px solid var(--ae-color-border);
+  box-shadow: var(--ae-shadow-lg);
+  outline: none;
+  transition:
+    top var(--ae-duration-slow) var(--ae-motion-ease),
+    left var(--ae-duration-slow) var(--ae-motion-ease);
+}
+
+.iv-walk__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--ae-space-2);
+}
+
+.iv-walk__count {
+  font-size: var(--ae-font-size-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ae-color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.iv-walk__close {
+  display: inline-flex;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  color: var(--ae-color-text-muted);
+  cursor: pointer;
+  border-radius: var(--ae-radius-sm, 4px);
+}
+.iv-walk__close:hover {
+  color: var(--ae-color-text-primary);
+  background: var(--ae-color-bg-subtle, transparent);
+}
+
+.iv-walk__title {
+  font-size: var(--ae-font-size-base);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin-bottom: var(--ae-space-1);
+}
+
+.iv-walk__body {
+  font-size: var(--ae-font-size-sm);
+  line-height: var(--ae-text-leading-base, 1.5);
+  color: var(--ae-color-text-secondary);
+}
+
+.iv-walk__dots {
+  display: flex;
+  gap: 6px;
+  margin: var(--ae-space-3) 0 var(--ae-space-3);
+}
+
+.iv-walk__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ae-color-border);
+  transition: background var(--ae-duration-fast) var(--ae-motion-ease);
+}
+.iv-walk__dot--on {
+  background: var(--ae-color-accent);
+}
+
+.iv-walk__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--ae-space-2);
+}
+.iv-walk__spacer {
+  flex: 1;
+}
+
+.iv-walk__btn {
+  font-family: inherit;
+  font-size: var(--ae-font-size-sm);
+  padding: 6px 14px;
+  border-radius: var(--ae-radius-component);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    background var(--ae-motion-hover-duration) var(--ae-motion-ease),
+    border-color var(--ae-motion-hover-duration) var(--ae-motion-ease);
+}
+.iv-walk__btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.iv-walk__btn--ghost {
+  background: transparent;
+  border-color: var(--ae-color-border);
+  color: var(--ae-color-text-secondary);
+}
+.iv-walk__btn--ghost:not(:disabled):hover {
+  border-color: var(--ae-color-text-muted);
+  color: var(--ae-color-text-primary);
+}
+.iv-walk__btn--primary {
+  background: var(--ae-color-accent);
+  color: var(--ae-color-accent-text);
+  border-color: var(--ae-color-accent);
+}
+.iv-walk__btn--primary:hover {
+  background: var(--ae-color-accent-hover);
+  border-color: var(--ae-color-accent-hover);
+}
+
+/* Reduced motion: the cursor jumps (duration is set to 0 inline), the ripple is
+   never rendered, and card/spotlight geometry settles instantly. The aether
+   token guard already zeroes the duration tokens; this belt-and-braces rule
+   covers the manual data-motion override too. */
+@media (prefers-reduced-motion: reduce) {
+  .iv-walk__cursor,
+  .iv-walk__card,
+  .iv-walk__hole,
+  .iv-walk__ring,
+  .iv-walk__dim {
+    transition-duration: 0ms !important;
+  }
+}
+:root[data-motion='reduced'] .iv-walk__cursor,
+:root[data-motion='reduced'] .iv-walk__card,
+:root[data-motion='reduced'] .iv-walk__hole,
+:root[data-motion='reduced'] .iv-walk__ring,
+:root[data-motion='reduced'] .iv-walk__dim {
+  transition-duration: 0ms !important;
+}
