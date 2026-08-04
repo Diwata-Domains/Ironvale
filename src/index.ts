@@ -188,3 +188,8 @@ export { CommandPalette, rankPaletteItem } from './components/CommandPalette/Com
 export type { CommandPaletteProps, PaletteItem } from './components/CommandPalette/CommandPalette.js';
 export { useKeyList } from './components/KeyList/useKeyList.js';
 export type { KeyListApi, UseKeyListOptions } from './components/KeyList/useKeyList.js';
+export { usePanelState } from './usePanelState.js';
+export { Tabs } from './components/Tabs/Tabs.js';
+export type { TabItem, TabsProps } from './components/Tabs/Tabs.js';
+export { PanelFold } from './components/PanelFold/PanelFold.js';
+export type { PanelFoldProps } from './components/PanelFold/PanelFold.js';

@@ -1,0 +1,47 @@
+/* Edge fold-handle — matches Diwa's .dw-fold: a slim 20×64 tab pinned to the
+   screen edge with a centered chevron. Token-driven (space-5 = 20px,
+   space-16 = 64px, radius-md = 8px). */
+.iv-panel-fold {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ae-space-0-5);
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: var(--ae-z-overlay);
+  width: var(--ae-space-5);
+  min-height: var(--ae-space-16);
+  padding: var(--ae-space-1) 0;
+  cursor: pointer;
+  border: var(--ae-border-width) solid var(--ae-color-border);
+  background: color-mix(in srgb, var(--ae-color-bg-raised) 85%, transparent);
+  color: var(--ae-color-text-muted);
+  font-size: var(--ae-font-size-caption);
+  line-height: 1;
+}
+.iv-panel-fold:hover {
+  color: var(--ae-color-accent);
+}
+.iv-panel-fold--left {
+  left: 0;
+  border-left: none;
+  border-radius: 0 var(--ae-radius-md) var(--ae-radius-md) 0;
+}
+.iv-panel-fold--right {
+  right: 0;
+  border-right: none;
+  border-radius: var(--ae-radius-md) 0 0 var(--ae-radius-md);
+}
+.iv-panel-fold--alert {
+  color: var(--ae-color-accent);
+  border-color: color-mix(in srgb, var(--ae-color-accent) 40%, var(--ae-color-border));
+}
+.iv-panel-fold__chevron {
+  font-size: var(--ae-font-size-body);
+}
+.iv-panel-fold__badge {
+  font-size: var(--ae-font-size-caption);
+  font-variant-numeric: tabular-nums;
+}

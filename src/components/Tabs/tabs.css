@@ -1,0 +1,47 @@
+.iv-tabs {
+  display: flex;
+  gap: var(--ae-space-1);
+  border-bottom: var(--ae-border-width) solid var(--ae-color-border);
+}
+.iv-tab {
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ae-space-1);
+  padding: var(--ae-space-2) var(--ae-space-2);
+  border-bottom: var(--ae-border-width-thick) solid transparent;
+  margin-bottom: calc(-1 * var(--ae-border-width));
+  color: var(--ae-color-text-muted);
+  font-family: var(--ae-font-family-base);
+  font-size: var(--ae-font-size-caption);
+  font-weight: var(--ae-font-weight-medium);
+  line-height: var(--ae-line-height-tight);
+}
+.iv-tab:hover {
+  color: var(--ae-color-text-secondary);
+}
+.iv-tab--active {
+  color: var(--ae-color-text-primary);
+  border-bottom-color: var(--ae-color-accent);
+}
+.iv-tab--alert {
+  color: var(--ae-color-accent);
+}
+.iv-tab__icon {
+  display: inline-flex;
+}
+.iv-tab__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25em;
+  padding-inline: var(--ae-space-1);
+  border-radius: var(--ae-radius-pill);
+  background: var(--ae-color-bg-muted);
+  color: var(--ae-color-text-secondary);
+  font-size: var(--ae-font-size-caption);
+  font-variant-numeric: tabular-nums;
+}
