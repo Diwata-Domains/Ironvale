@@ -173,3 +173,11 @@ export { Checkbox } from './components/Checkbox/Checkbox.js';
 export type { CheckboxProps } from './components/Checkbox/Checkbox.js';
 export { Heading } from './components/Heading/Heading.js';
 export type { HeadingLevel, HeadingProps } from './components/Heading/Heading.js';
+
+// --- ticket surface primitives (StatusChip + CommandPalette + useKeyList) ---
+export { StatusChip, STATUS_CHIP_LABEL } from './components/StatusChip/StatusChip.js';
+export type { StatusChipProps, StatusChipStatus } from './components/StatusChip/StatusChip.js';
+export { CommandPalette, rankPaletteItem } from './components/CommandPalette/CommandPalette.js';
+export type { CommandPaletteProps, PaletteItem } from './components/CommandPalette/CommandPalette.js';
+export { useKeyList } from './components/KeyList/useKeyList.js';
+export type { KeyListApi, UseKeyListOptions } from './components/KeyList/useKeyList.js';

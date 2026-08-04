@@ -27,3 +27,7 @@
 /* --- ironvale form primitives (Select restyle + Checkbox + Heading) --- */
 @import "./components/Checkbox/checkbox.css";
 @import "./components/Heading/heading.css";
+
+/* --- ticket surface primitives (StatusChip + CommandPalette) --- */
+@import "./components/StatusChip/status-chip.css";
+@import "./components/CommandPalette/command-palette.css";

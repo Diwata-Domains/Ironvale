@@ -1,0 +1,68 @@
+.iv-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ae-space-component-xs);
+  padding-block: var(--ae-space-0-5);
+  padding-inline: var(--ae-space-component-sm);
+  border-radius: var(--ae-radius-pill);
+  border: var(--ae-border-width) solid transparent;
+  font-family: var(--ae-font-family-base);
+  font-size: var(--ae-font-size-caption);
+  font-weight: var(--ae-font-weight-semibold);
+  line-height: var(--ae-line-height-tight);
+  white-space: nowrap;
+}
+
+/* Leading state dot — glanceable in dense lists without reading the label. */
+.iv-status-chip::before {
+  content: "";
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: var(--ae-radius-pill);
+  background-color: currentColor;
+}
+
+.iv-status-chip--triage {
+  color: var(--ae-color-text-muted);
+  background-color: var(--ae-color-bg-muted);
+  border-color: var(--ae-color-border);
+}
+
+.iv-status-chip--todo {
+  color: var(--ae-color-text-secondary);
+  background-color: var(--ae-color-bg-subtle);
+  border-color: var(--ae-color-border-strong);
+}
+
+.iv-status-chip--open {
+  color: var(--ae-color-feedback-info);
+  background-color: color-mix(in srgb, var(--ae-color-feedback-info) 15%, transparent);
+  border-color: color-mix(in srgb, var(--ae-color-feedback-info) 30%, transparent);
+}
+
+.iv-status-chip--reopened {
+  color: var(--ae-color-feedback-warning);
+  background-color: color-mix(in srgb, var(--ae-color-feedback-warning) 15%, transparent);
+  border-color: color-mix(in srgb, var(--ae-color-feedback-warning) 30%, transparent);
+}
+
+/* Awaiting human confirmation — the theme's action color (gold in daemon, per
+   the suite's progression language): this chip is an invitation to act, and it
+   must never read as an error state (daemon's accent is crimson). */
+.iv-status-chip--confirm-proposed {
+  color: var(--ae-color-action-primary);
+  background-color: color-mix(in srgb, var(--ae-color-action-primary) 12%, transparent);
+  border-color: color-mix(in srgb, var(--ae-color-action-primary) 30%, transparent);
+}
+
+.iv-status-chip--closed {
+  color: var(--ae-color-feedback-success);
+  background-color: color-mix(in srgb, var(--ae-color-feedback-success) 15%, transparent);
+  border-color: color-mix(in srgb, var(--ae-color-feedback-success) 30%, transparent);
+}
+
+.iv-status-chip--canceled {
+  color: var(--ae-color-text-muted);
+  background-color: transparent;
+  border-color: var(--ae-color-border);
+}

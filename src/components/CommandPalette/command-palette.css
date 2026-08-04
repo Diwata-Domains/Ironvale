@@ -1,0 +1,98 @@
+.iv-cmdk-scrim {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--ae-color-bg-base) 55%, transparent);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 14vh;
+  z-index: var(--ae-z-index-modal, 100);
+}
+
+.iv-cmdk {
+  inline-size: min(560px, calc(100vw - var(--ae-space-8)));
+  background: var(--ae-color-bg-surface);
+  border: var(--ae-border-width) solid var(--ae-color-border);
+  border-radius: var(--ae-radius-component);
+  box-shadow: var(--ae-shadow-overlay, 0 16px 48px rgba(0, 0, 0, 0.35));
+  overflow: hidden;
+}
+
+.iv-cmdk-search {
+  display: flex;
+  align-items: center;
+  gap: var(--ae-space-component-sm);
+  border-block-end: var(--ae-border-width) solid var(--ae-color-border);
+  padding-inline: var(--ae-space-4);
+}
+
+.iv-cmdk-search-glyph {
+  color: var(--ae-color-text-muted);
+}
+
+.iv-cmdk-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--ae-color-text-primary);
+  font-family: var(--ae-font-family-base);
+  font-size: var(--ae-font-size-label);
+  padding-block: var(--ae-space-4);
+  outline: none;
+  min-inline-size: 0;
+}
+
+.iv-cmdk-hintkey {
+  font-family: var(--ae-font-family-mono);
+  font-size: var(--ae-font-size-caption);
+  color: var(--ae-color-text-muted);
+  border: var(--ae-border-width) solid var(--ae-color-border);
+  border-radius: var(--ae-radius-component);
+  padding: 0 var(--ae-space-1);
+}
+
+.iv-cmdk-list {
+  max-block-size: 320px;
+  overflow-y: auto;
+  padding: var(--ae-space-1);
+}
+
+.iv-cmdk-item {
+  display: flex;
+  align-items: center;
+  gap: var(--ae-space-component-md);
+  inline-size: 100%;
+  border: none;
+  background: none;
+  color: var(--ae-color-text-primary);
+  font-family: var(--ae-font-family-base);
+  font-size: var(--ae-font-size-label);
+  text-align: start;
+  padding: var(--ae-space-2) var(--ae-space-3);
+  border-radius: var(--ae-radius-component);
+  cursor: pointer;
+}
+
+.iv-cmdk-item--active {
+  background: var(--ae-color-bg-subtle);
+}
+
+.iv-cmdk-item-title {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-inline-size: 0;
+}
+
+.iv-cmdk-item-hint {
+  color: var(--ae-color-text-muted);
+  font-size: var(--ae-font-size-caption);
+  white-space: nowrap;
+}
+
+.iv-cmdk-empty {
+  padding: var(--ae-space-4);
+  color: var(--ae-color-text-muted);
+  font-size: var(--ae-font-size-caption);
+}
