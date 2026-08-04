@@ -198,6 +198,38 @@ export function fitCamera(world: { w: number; h: number }, w: number, h: number)
 }
 
 /**
+ * Art-direction camera: the fitted view scaled by `zoom`, with the WORLD CENTRE held at the
+ * viewport centre. `zoom` is fit-relative (1 = exactly `fitCamera`), so a staged page can say
+ * "10% tighter than fit" without knowing world units. Used with `lockCamera` to hold a
+ * composed sky exactly where it was placed.
+ */
+export function fitCameraZoomed(world: { w: number; h: number }, w: number, h: number, zoom = 1): Camera {
+  const fit = fitCamera(world, w, h);
+  if (zoom === 1) return fit;
+  const k = fit.k * zoom;
+  return { k, tx: w / 2 - (world.w / 2) * k, ty: h / 2 - (world.h / 2) * k };
+}
+
+/**
+ * Centre-offset → screen projection, the same coordinate space `stagePositions` (and pins) use:
+ * (0,0) is the sky's centre (the focus node), +y is down. Folds in the camera AND the 3d tilt,
+ * so decor drawn through it lands exactly on the stars it annotates. This is the seam a page's
+ * overlay (region labels, staged rings, hand-off threads) projects through.
+ */
+export function projectCenterOffset(
+  cam: Camera,
+  world: { w: number; h: number },
+  tiltY: number,
+  dx: number,
+  dy: number,
+): Vec2 {
+  const cx = world.w / 2;
+  const cy = world.h / 2;
+  const wy = cy + dy * tiltY; // tilt foreshortens about the centre
+  return { x: (cx + dx) * cam.k + cam.tx, y: wy * cam.k + cam.ty };
+}
+
+/**
  * Zoom around a screen point: the world point under (sx, sy) stays fixed as k changes. `factor`
  * is the multiplicative zoom (e.g. `Math.exp(-deltaY * 0.0016)` for a wheel). Clamped to
  * [fitK * 0.5, maxK].

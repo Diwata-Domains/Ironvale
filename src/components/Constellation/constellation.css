@@ -14,6 +14,24 @@
   touch-action: none;
 }
 
+/* ── Art-direction decor layer ───────────────────────────────────────────────
+   Projected through the same camera as the stars (the `overlay` prop); never
+   interactive — region labels, staged halos, and hand-off threads only. */
+.iv-constellation-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+.iv-constellation-overlay svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
 /* ── Stars ──────────────────────────────────────────────────────────────────── */
 @keyframes iv-twinkle {
   0%,

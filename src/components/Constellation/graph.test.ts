@@ -7,7 +7,9 @@ import {
   filterByReach,
   filterByTime,
   fitCamera,
+  fitCameraZoomed,
   hopDistances,
+  projectCenterOffset,
   screenToWorld,
   sectorsByGroup,
   tiltFactor,
@@ -221,5 +223,46 @@ describe('tiltFactor', () => {
     expect(tiltFactor('2d')).toBe(1);
     expect(tiltFactor('3d')).toBeLessThan(1);
     expect(tiltFactor('3d')).toBeGreaterThan(0);
+  });
+});
+
+describe('fitCameraZoomed (art-direction)', () => {
+  it('zoom 1 is exactly the fitted camera', () => {
+    expect(fitCameraZoomed({ w: 1600, h: 800 }, 800, 800, 1)).toEqual(fitCamera({ w: 1600, h: 800 }, 800, 800));
+  });
+
+  it('scales the fitted k and holds the world centre at the viewport centre', () => {
+    const world = { w: 1600, h: 800 };
+    const cam = fitCameraZoomed(world, 800, 600, 1.4);
+    expect(cam.k).toBeCloseTo(fitCamera(world, 800, 600).k * 1.4);
+    // the world centre projects to the viewport centre
+    expect((world.w / 2) * cam.k + cam.tx).toBeCloseTo(400);
+    expect((world.h / 2) * cam.k + cam.ty).toBeCloseTo(300);
+  });
+});
+
+describe('projectCenterOffset (the stagePositions space)', () => {
+  const world = { w: 1000, h: 800 };
+
+  it('(0,0) lands on the projected world centre', () => {
+    const cam = { k: 0.5, tx: 20, ty: 10 };
+    const p = projectCenterOffset(cam, world, 1, 0, 0);
+    expect(p.x).toBeCloseTo(500 * 0.5 + 20);
+    expect(p.y).toBeCloseTo(400 * 0.5 + 10);
+  });
+
+  it('offsets scale with the camera and stay centre-relative', () => {
+    const cam = { k: 2, tx: -100, ty: 40 };
+    const p = projectCenterOffset(cam, world, 1, 30, -50);
+    expect(p.x).toBeCloseTo((500 + 30) * 2 - 100);
+    expect(p.y).toBeCloseTo((400 - 50) * 2 + 40);
+  });
+
+  it('folds the 3d tilt in about the centre, matching the render transform', () => {
+    const tilt = tiltFactor('3d');
+    const cam = { k: 1, tx: 0, ty: 0 };
+    const p = projectCenterOffset(cam, world, tilt, 0, 100);
+    expect(p.x).toBeCloseTo(500);
+    expect(p.y).toBeCloseTo(400 + 100 * tilt); // foreshortened, not raw
   });
 });

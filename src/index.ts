@@ -141,6 +141,8 @@ export {
   computeRingRadii,
   sectorsByGroup,
   fitCamera,
+  fitCameraZoomed,
+  projectCenterOffset,
   zoomAround,
   screenToWorld,
   tiltFactor,

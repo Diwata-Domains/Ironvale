@@ -7,7 +7,9 @@ import {
   filterByReach,
   filterByTime,
   fitCamera,
+  fitCameraZoomed,
   hopDistances,
+  projectCenterOffset,
   screenToWorld,
   sectorsByGroup,
   SKY_MARGIN,
@@ -128,6 +130,32 @@ export interface ConstellationProps {
   onViewStats?: (stats: ConstellationViewStats) => void;
   /** Overlay rendered inside the sky (empty-state, extra controls) — a slot the wrapper fills. */
   children?: React.ReactNode;
+
+  // ── Art-direction (opt-in; defaults leave live-graph behaviour untouched) ──────────────
+  // A page can STAGE the sky exactly — the marketing hero, a future verse map — while the
+  // same component keeps simulating organic graphs everywhere else.
+
+  /** Exact star placements as offsets from the sky centre (the pin coordinate space).
+   *  Staged stars hold still; unstaged stars keep simulating around them. The centre/focus
+   *  node always sits at (0,0) regardless. */
+  stagePositions?: Record<string, { x: number; y: number }>;
+  /** Hold the camera: wheel zoom, pan, pinch and node dragging are off. Clicks and hover
+   *  still work. Default false. */
+  lockCamera?: boolean;
+  /** Fit-relative zoom applied whenever the camera (re)fits — 1 is exactly the fitted view,
+   *  1.15 is 15% tighter, centred on the sky's centre. Default 1. */
+  initialZoom?: number;
+  /** Label whitelist: when present, ONLY these ids carry labels (including the ego — list it
+   *  or it goes quiet too). When absent, the density-aware auto-labelling runs as ever. */
+  labelIds?: string[];
+  /** Draw the hop rings + their mono labels. Default true; a staged star chart turns them off. */
+  hopRings?: boolean;
+  /** Draw the sector rays + rim labels. Default true. */
+  sectorRays?: boolean;
+  /** Decor layer above the sky (region labels, staged halos, hand-off threads). `project`
+   *  maps centre-offset coordinates — the SAME space `stagePositions` uses — to screen px,
+   *  camera and tilt folded in; `k` is the current zoom for stroke/type scaling. */
+  overlay?: (project: (dx: number, dy: number) => { x: number; y: number }, k: number) => React.ReactNode;
 }
 
 // ── Constants (ported from the Diwa constellation, tuned for a 62px-arc world) ──────────────
@@ -201,6 +229,13 @@ export function Constellation(props: ConstellationProps) {
     onResetFocus,
     onViewStats,
     children,
+    stagePositions,
+    lockCamera = false,
+    initialZoom = 1,
+    labelIds,
+    hopRings = true,
+    sectorRays = true,
+    overlay,
   } = props;
   const reach = props.reach ?? maxHop;
   const theme = { ...DEFAULT_THEME, ...props.theme };
@@ -367,12 +402,16 @@ export function Constellation(props: ConstellationProps) {
   camRef.current = cam;
   const fitKRef = useRef(1);
   useEffect(() => {
-    const c = fitCamera(world, w, H);
-    fitKRef.current = c.k;
-    setCam(c);
-  }, [world.w, world.h, w, H]); // eslint-disable-line react-hooks/exhaustive-deps
+    fitKRef.current = fitCamera(world, w, H).k;
+    setCam(fitCameraZoomed(world, w, H, initialZoom));
+  }, [world.w, world.h, w, H, initialZoom]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // A locked camera ignores every gesture (wheel/pan/pinch/drag) but keeps clicks + hover.
+  const lockRef = useRef(lockCamera);
+  lockRef.current = lockCamera;
 
   useEffect(() => {
+    if (lockCamera) return; // no wheel zoom on a staged sky
     const el = wrapRef.current;
     if (!el) return;
     const onWheel = (ev: WheelEvent) => {
@@ -384,14 +423,18 @@ export function Constellation(props: ConstellationProps) {
     };
     el.addEventListener('wheel', onWheel, { passive: false });
     return () => el.removeEventListener('wheel', onWheel);
-  }, []);
+  }, [lockCamera]);
 
   // ── 3D-mode tilt (render-time projection about the world centre) ────────────────────────────
   const tiltY = tiltFactor(mode);
   const tiltYRef = useRef(tiltY);
   tiltYRef.current = tiltY;
 
-  const richOpacity = Math.max(0, Math.min(1, (cam.k - GALAXY_K) / (RICH_K - GALAXY_K)));
+  // A locked (art-directed) sky is ALWAYS the rich chart: the zoom-out LOD
+  // crossfade is a navigation affordance, and a staged page never navigates —
+  // without this, a small initialZoom would dissolve the staging into the
+  // galaxy point-field (and pull three.js onto the marketing page).
+  const richOpacity = lockCamera ? 1 : Math.max(0, Math.min(1, (cam.k - GALAXY_K) / (RICH_K - GALAXY_K)));
   const galaxyOpacity = 1 - richOpacity;
 
   const rScale = useMemo(() => {
@@ -523,7 +566,11 @@ export function Constellation(props: ConstellationProps) {
       const seedR = ringR(hops.get(node.id) ?? maxHop);
       const seedX = cx + Math.cos(angle) * seedR;
       const seedY = cy + Math.sin(angle) * seedR;
-      const pin = node.id === centerId ? null : pinsRef.current.get(node.id) ?? node.pinnedPos ?? null;
+      // precedence: a live drag-pin, then the page's staged placement, then a data pin
+      const pin =
+        node.id === centerId
+          ? null
+          : pinsRef.current.get(node.id) ?? stagePositions?.[node.id] ?? node.pinnedPos ?? null;
       return {
         id: node.id,
         x: node.id === centerId ? cx : pin ? cx + pin.x : p?.x ?? seedX,
@@ -539,7 +586,7 @@ export function Constellation(props: ConstellationProps) {
     edgesRef.current = scoped.edges.map((e) => ({ source: e.source, target: e.target, kind: e.kind, label: e.label }));
     reheat(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scoped, w, H, world, degree, hops, neighbours, sectors, ringR, reheat, centerId, rScale, egoId, maxHop]);
+  }, [scoped, w, H, world, degree, hops, neighbours, sectors, ringR, reheat, centerId, rScale, egoId, maxHop, stagePositions]);
 
   // physics loop
   useEffect(() => {
@@ -754,6 +801,7 @@ export function Constellation(props: ConstellationProps) {
         pan.lx = ev.clientX;
         pan.ly = ev.clientY;
         if (Math.hypot(ev.clientX - pan.sx, ev.clientY - pan.sy) > 3) pan.moved = true;
+        if (lockRef.current) return; // locked: track movement (for click-vs-drag) but never pan
         setCam((c) => ({ k: c.k, tx: pan.tx0 + (ev.clientX - pan.sx), ty: pan.ty0 + (ev.clientY - pan.sy) }));
         return;
       }
@@ -761,6 +809,7 @@ export function Constellation(props: ConstellationProps) {
       const wrap = wrapRef.current;
       if (!d || !wrap) return;
       if (Math.hypot(ev.clientX - d.sx, ev.clientY - d.sy) > 3) d.moved = true;
+      if (lockRef.current) return; // locked: a "drag" is only ever a click
       const rect = wrap.getBoundingClientRect();
       const n = nodesRef.current.find((nn) => nn.id === d.id);
       if (n && n.id !== centerIdRef.current) {
@@ -811,7 +860,7 @@ export function Constellation(props: ConstellationProps) {
         const n = nodesRef.current.find((nn) => nn.id === d.id);
         if (n && !d.moved) {
           onNodeClickRef.current?.(n.node, d.anchor);
-        } else if (n && n.id !== centerIdRef.current) {
+        } else if (n && n.id !== centerIdRef.current && !lockRef.current) {
           const pin = { x: n.x - worldRef.current.w / 2, y: n.y - worldRef.current.h / 2 };
           n.pin = pin;
           pinsRef.current.set(n.id, pin);
@@ -880,6 +929,7 @@ export function Constellation(props: ConstellationProps) {
 
   const focus = hovered ? new Set([hovered, ...(neighbours.get(hovered) ?? [])]) : null;
   const hoveredNode = hovered ? byId.get(hovered) : undefined;
+  const whitelist = labelIds ? new Set(labelIds) : null;
   const labelled = new Set<string>();
   const claimed: { x1: number; y1: number; x2: number; y2: number }[] = [];
   const labelShrink = Math.max(1, cam.k);
@@ -889,16 +939,21 @@ export function Constellation(props: ConstellationProps) {
     const halfW = (labelOf(n.node).length * CHAR_W) / 2;
     return { x1: n.x - halfW, y1: n.y + n.r + 4, x2: n.x + halfW, y2: n.y + n.r + 4 + LABEL_H };
   };
-  for (const n of drawNodes) if (n.id === egoId) claimed.push(boxOf(n));
-  for (const n of [...drawNodes]
-    .filter((nn) => nn.id !== egoId)
-    .sort((a, b) => (degree.get(b.id) ?? 0) - (degree.get(a.id) ?? 0))) {
-    if (labelled.size >= MAX_LABELS) break;
-    const box = boxOf(n);
-    const hits = claimed.some((c) => !(box.x2 < c.x1 || box.x1 > c.x2 || box.y2 < c.y1 || box.y1 > c.y2));
-    if (hits) continue;
-    claimed.push(box);
-    labelled.add(n.id);
+  if (whitelist) {
+    // art-directed: the page names its labels exactly — no density heuristics
+    for (const n of drawNodes) if (whitelist.has(n.id)) labelled.add(n.id);
+  } else {
+    for (const n of drawNodes) if (n.id === egoId) claimed.push(boxOf(n));
+    for (const n of [...drawNodes]
+      .filter((nn) => nn.id !== egoId)
+      .sort((a, b) => (degree.get(b.id) ?? 0) - (degree.get(a.id) ?? 0))) {
+      if (labelled.size >= MAX_LABELS) break;
+      const box = boxOf(n);
+      const hits = claimed.some((c) => !(box.x2 < c.x1 || box.x1 > c.x2 || box.y2 < c.y1 || box.y1 > c.y2));
+      if (hits) continue;
+      claimed.push(box);
+      labelled.add(n.id);
+    }
   }
 
   const showGalaxy = scoped.nodes.length > 0 && (galaxyOpacity > 0.02 || galaxyEverRef.current);
@@ -913,7 +968,7 @@ export function Constellation(props: ConstellationProps) {
       data-mode={mode}
       onPointerDown={(ev) => {
         const pan = panRef.current;
-        if (pan && !pinchRef.current && ev.pointerId !== pan.pointerId) {
+        if (pan && !pinchRef.current && ev.pointerId !== pan.pointerId && !lockCamera) {
           const rect = ev.currentTarget.getBoundingClientRect();
           const c = camRef.current;
           const midX = (pan.lx + ev.clientX) / 2 - rect.left;
@@ -1023,7 +1078,8 @@ export function Constellation(props: ConstellationProps) {
           }}
         >
           <g transform={worldTransform}>
-            {Array.from({ length: outerHop }, (_, i) => i + 1).map((hop) => (
+            {hopRings &&
+              Array.from({ length: outerHop }, (_, i) => i + 1).map((hop) => (
               <g key={`ring-${hop}`} style={{ pointerEvents: 'none' }}>
                 <circle cx={cx} cy={cy} r={ringR(hop)} fill="none" stroke={theme.ring} strokeOpacity={0.07} strokeWidth={1} />
                 <text
@@ -1039,7 +1095,8 @@ export function Constellation(props: ConstellationProps) {
               </g>
             ))}
 
-            {sectors.size > 1 &&
+            {sectorRays &&
+              sectors.size > 1 &&
               [...sectors.entries()].map(([name, sector]) => {
                 const outer = ringR(outerHop);
                 const bx = cx + Math.cos(sector.start) * outer;
@@ -1148,7 +1205,9 @@ export function Constellation(props: ConstellationProps) {
                       strokeWidth={isEgo ? 2 : 1}
                       filter={`drop-shadow(0 0 ${glowSize}px ${glow})`}
                     />
-                    {(isEgo || labelled.has(n.id) || (!!focus && focus.has(n.id))) && (
+                    {(whitelist
+                      ? labelled.has(n.id)
+                      : isEgo || labelled.has(n.id) || (!!focus && focus.has(n.id))) && (
                       <text
                         y={n.r + 15 / labelShrink}
                         textAnchor="middle"
@@ -1164,6 +1223,12 @@ export function Constellation(props: ConstellationProps) {
               })}
           </g>
         </svg>
+      )}
+
+      {overlay && (
+        <div className="iv-constellation-overlay" aria-hidden="true">
+          {overlay((dx, dy) => projectCenterOffset(cam, world, tiltY, dx, dy), cam.k)}
+        </div>
       )}
 
       {timeControl && timeSpan && (
