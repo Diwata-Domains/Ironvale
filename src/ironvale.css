@@ -28,6 +28,10 @@
 @import "./components/Checkbox/checkbox.css";
 @import "./components/Heading/heading.css";
 
+/* --- instrument register (Tile board: StatusPip + MonoStat + Tile) --- */
+@import "./components/StatusPip/status-pip.css";
+@import "./components/MonoStat/mono-stat.css";
+@import "./components/Tile/tile.css";
 /* --- ticket surface primitives (StatusChip + CommandPalette) --- */
 @import "./components/StatusChip/status-chip.css";
 @import "./components/CommandPalette/command-palette.css";

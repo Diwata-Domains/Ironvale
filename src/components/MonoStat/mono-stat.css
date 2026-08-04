@@ -1,0 +1,34 @@
+/* MonoStat — big mono numerals + small label. Dense-calm: the number carries
+   the weight; label and delta stay quiet. */
+
+.iv-monostat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.iv-monostat-value {
+  font-family: var(--ae-font-family-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--ae-font-size-heading-md, 24px);
+  font-weight: var(--ae-font-weight-semibold);
+  line-height: 1.1;
+  color: var(--ae-color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.iv-monostat-label {
+  font-size: var(--ae-font-size-caption);
+  font-weight: var(--ae-font-weight-medium);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ae-color-text-muted);
+}
+
+.iv-monostat-delta {
+  font-size: var(--ae-font-size-caption);
+  color: var(--ae-color-text-secondary);
+}

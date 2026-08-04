@@ -174,6 +174,13 @@ export type { CheckboxProps } from './components/Checkbox/Checkbox.js';
 export { Heading } from './components/Heading/Heading.js';
 export type { HeadingLevel, HeadingProps } from './components/Heading/Heading.js';
 
+// --- instrument register (Tile board: StatusPip + MonoStat + Tile) ---
+export { StatusPip } from './components/StatusPip/StatusPip.js';
+export type { StatusPipProps, StatusPipStatus } from './components/StatusPip/StatusPip.js';
+export { MonoStat } from './components/MonoStat/MonoStat.js';
+export type { MonoStatProps } from './components/MonoStat/MonoStat.js';
+export { Tile } from './components/Tile/Tile.js';
+export type { TileProps } from './components/Tile/Tile.js';
 // --- ticket surface primitives (StatusChip + CommandPalette + useKeyList) ---
 export { StatusChip, STATUS_CHIP_LABEL } from './components/StatusChip/StatusChip.js';
 export type { StatusChipProps, StatusChipStatus } from './components/StatusChip/StatusChip.js';

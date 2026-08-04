@@ -1,0 +1,29 @@
+/* StatusPip — semantic instrument status. Square-ish and small: an indicator
+   lamp on a panel, not a badge. Colors come from the feedback tokens so they
+   stay distinct from the theme accent in every theme. */
+
+.iv-pip {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  background-color: var(--ae-color-text-muted);
+}
+
+.iv-pip--ok {
+  background-color: var(--ae-color-feedback-success);
+}
+
+.iv-pip--warn {
+  background-color: var(--ae-color-feedback-warning);
+}
+
+.iv-pip--red {
+  background-color: var(--ae-color-feedback-error);
+}
+
+.iv-pip--unavailable {
+  background-color: transparent;
+  border: var(--ae-border-width) solid var(--ae-color-text-muted);
+}
