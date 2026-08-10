@@ -1,0 +1,35 @@
+.iv-textarea {
+  width: 100%;
+  padding-block: var(--ae-space-component-sm);
+  padding-inline: var(--ae-space-component-md);
+  border: thin solid var(--ae-color-border-default);
+  border-radius: var(--ae-radius-component);
+  color: var(--ae-color-text-default);
+  background-color: var(--ae-color-bg-input);
+  font-family: var(--ae-font-family-base);
+  font-size: var(--ae-font-size-body);
+  line-height: var(--ae-text-leading-base);
+  resize: vertical;
+  min-height: calc(var(--ae-font-size-body) * 3);
+  transition-property: border-color, box-shadow;
+  transition-duration: var(--ae-motion-hover-duration);
+  transition-timing-function: var(--ae-motion-ease);
+}
+
+.iv-textarea:focus {
+  border-color: var(--ae-color-border-focus);
+  outline: none;
+  box-shadow: 0 0 0 var(--ae-focus-ring-width) var(--ae-focus-ring-color);
+}
+
+.iv-textarea--error {
+  border-color: var(--ae-color-feedback-danger-border);
+}
+
+.iv-textarea[disabled],
+.iv-textarea[aria-disabled="true"] {
+  color: var(--ae-color-action-disabled-text);
+  background-color: var(--ae-color-action-disabled-bg);
+  border-color: var(--ae-color-action-disabled-border);
+  cursor: not-allowed;
+}

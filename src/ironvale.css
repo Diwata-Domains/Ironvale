@@ -4,6 +4,7 @@
 @import "./components/Stack/stack.css";
 @import "./components/Surface/surface.css";
 @import "./components/Input/input.css";
+@import "./components/Textarea/textarea.css";
 @import "./components/Select/select.css";
 @import "./components/ThemeToggle/theme-toggle.css";
 @import "./components/AppearancePanel/appearance-panel.css";

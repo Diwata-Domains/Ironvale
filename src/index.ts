@@ -2,6 +2,8 @@ export { Button } from './components/Button/Button.js';
 export type { ButtonProps, ButtonSize, ButtonVariant } from './components/Button/Button.js';
 export { Input } from './components/Input/Input.js';
 export type { InputProps } from './components/Input/Input.js';
+export { Textarea } from './components/Textarea/Textarea.js';
+export type { TextareaProps } from './components/Textarea/Textarea.js';
 export { Select } from './components/Select/Select.js';
 export type { SelectOption, SelectProps } from './components/Select/Select.js';
 export { ThemeToggle } from './components/ThemeToggle/ThemeToggle.js';
