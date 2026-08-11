@@ -36,3 +36,12 @@ describe('Textarea', () => {
     expect(el.className).toContain('mine');
   });
 });
+
+describe('Textarea ref', () => {
+  it('forwards a ref to the underlying textarea (React 19 ref-as-prop)', () => {
+    const ref: { current: HTMLTextAreaElement | null } = { current: null };
+    act(() => root.render(<Textarea ref={ref} aria-label="With ref" />));
+    expect(ref.current).not.toBeNull();
+    expect(ref.current!.tagName).toBe('TEXTAREA');
+  });
+});

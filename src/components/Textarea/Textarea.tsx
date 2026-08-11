@@ -1,7 +1,9 @@
-import type { TextareaHTMLAttributes } from 'react';
+import type { Ref, TextareaHTMLAttributes } from 'react';
 
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   error?: boolean;
+  /** React 19 ref-as-prop — forwarded to the underlying textarea (e.g. for auto-grow resets). */
+  ref?: Ref<HTMLTextAreaElement>;
 }
 
 /** Multi-line text field — the `Input` sibling for free-form, multi-row entry (chat, notes). */
