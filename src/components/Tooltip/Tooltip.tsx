@@ -162,6 +162,8 @@ export function Tooltip({ label, children, placement = 'top', id, className }: T
   const onKeyDown = useCallback(
     (event: ReactKeyboardEvent<HTMLElement>) => {
       if (event.key === 'Escape' && open) {
+        // Consumed: dismissing the tooltip is this keystroke's one action.
+        event.preventDefault();
         setOpen(false);
       }
       (children.props as { onKeyDown?: (e: ReactKeyboardEvent<HTMLElement>) => void }).onKeyDown?.(

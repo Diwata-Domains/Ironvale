@@ -89,7 +89,12 @@ export function AppearancePanel({ className, align = 'right' }: AppearancePanelP
       setOpen(false);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false);
+      if (e.key === 'Escape') {
+        // Mark the Escape consumed so listeners further out (e.g. an app-level
+        // Esc-to-go-back handler) don't ALSO act on the same keystroke.
+        e.preventDefault();
+        setOpen(false);
+      }
     };
     document.addEventListener('mousedown', onDoc);
     document.addEventListener('keydown', onKey);
