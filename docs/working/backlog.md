@@ -114,6 +114,12 @@ Status values: `draft` | `ready` | `in_progress` | `blocked` | `done`
 - **Dependencies:** P4-T03
 - **Summary:** Wire `initFontPreset()` + `<AppearancePanel>` into diwa-web, conclave, apex, assay-dashboard, sovereign. **One PR per app** — each edit trips that app's CI deploy, so no bulk change. Sanctum already wired (its floating nav).
 
+### P4-T05 — DatePicker and Calendar components
+- **Status:** in_progress
+- **TASK-ID:** TASK-0009
+- **Dependencies:** P4-T02
+- **Summary:** `src/components/DatePicker` — a themed date field replacing `<input type="date">` (founder, 2026-10-06, from Sanctum's task due date). Select-style trigger, portalled dialog popover, exported `Calendar` month grid; `YYYY-MM-DD` strings in and out with integer-only day math (no UTC, no day shift); WAI-ARIA date-picker keyboard. Sanctum adopts it in its own PR.
+
 ---
 
 ## Under Consideration

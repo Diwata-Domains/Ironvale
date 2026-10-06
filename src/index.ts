@@ -6,6 +6,10 @@ export { Textarea } from './components/Textarea/Textarea.js';
 export type { TextareaProps } from './components/Textarea/Textarea.js';
 export { Select } from './components/Select/Select.js';
 export type { SelectOption, SelectProps } from './components/Select/Select.js';
+export { DatePicker } from './components/DatePicker/DatePicker.js';
+export type { DatePickerProps } from './components/DatePicker/DatePicker.js';
+export { Calendar } from './components/DatePicker/Calendar.js';
+export type { CalendarProps } from './components/DatePicker/Calendar.js';
 export { ThemeToggle } from './components/ThemeToggle/ThemeToggle.js';
 export type { ThemeToggleProps } from './components/ThemeToggle/ThemeToggle.js';
 export {
